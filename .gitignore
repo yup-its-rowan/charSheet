@@ -2,7 +2,7 @@
 /.pnp
 .pnp.js
 
-.charSheet.js
+charSheet.js
 
 # testing
 /coverage
