@@ -1,0 +1,272 @@
+:root {
+    --borderColor: #000000;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 8vh;
+    width: 100vw;
+    background-color: red;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
+
+.footerContent {
+    width: 15vw;
+    height: 8vh;
+    background-color: blue;
+}
+body {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    margin: 2vh 5vw 10vh 5vw;
+    /*background-color: #725752;*/
+}
+.stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 10px solid var(--borderColor);
+    border-radius: 30px;
+}
+
+.innerStat {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+
+    font-size: 5em;
+}
+
+.statName {
+    padding-left: 2vw;
+}
+
+.statMod {
+    padding-right: 2vw;
+}
+
+.statTeeHee {
+    border-top: 10px solid var(--borderColor);
+}
+
+.statValue {
+    display: none;
+}
+
+.topGrid{
+    display: grid;
+    grid-template-columns: 40vw 40vw;
+    grid-template-rows: 50vh;
+    column-gap: 10vw;
+}
+
+.usefulInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centerer {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.borderer {
+    border: 10px solid var(--borderColor);
+    border-radius: 30px;
+}
+
+.nameDiv {
+    height: 35%;
+    width: 100%;      
+    font-size: 5em;
+}
+
+.classDiv {
+    height: 10%;
+    width: 100%;
+    font-size: 2em;
+    justify-content: space-evenly;
+    margin-top: 2.5vh;
+}
+
+.ACHPDiv {
+    display: grid;
+    margin-top: 3vh;
+    height: 30%;
+    width: 100%;
+    grid-template-columns: 45% 45%;
+    grid-template-rows: 100%;
+    column-gap: 10%;
+    font-size: 3.5em;
+}
+
+.cash {
+    margin-top: 3vh;
+    display: flex;
+    align-items: center;    
+    justify-content: space-evenly;
+    column-gap: 5vw;
+    font-size: 2.5em;
+}
+
+.headingText {
+    font-size: 5em;
+    margin: 24px 0px;
+}
+
+.headingText2 {
+    font-size: 3em;
+    text-decoration: underline;
+    margin: 24px 0px;
+}
+
+.attacks {
+    margin-top: 3vh;
+    text-align: center;
+    padding-bottom: 1vh;
+    margin-bottom: 5vh;
+}
+
+.writtenAttack p{
+    margin: 0;
+}
+
+.damageType, .additionalInfo, .damageRoll, .attackRollMod {
+    display:none;
+}
+
+.writtenAttackList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.writtenAttack {
+    border: var(--borderColor) 5px solid;
+    border-radius: 30px;    
+    height: 5vh;
+    width: 60vw;
+    font-size: 2.5em;
+    margin-bottom: 1vh;
+}
+
+.addAttackButton {
+    font-size: xx-large;
+    width: 8vw;
+    height: 3vh;
+}
+
+.spellslots {
+    margin: 2vh 0vw;
+    font-size: 2em;
+}
+
+.lvl {
+    padding-right: 3vw;
+}
+
+.addSpellButton {
+    font-size: xx-large;
+    width: 8vw;
+    height: 3vh;
+}
+
+.spells {
+    text-align: center;
+    padding-bottom: 1vh;
+    margin-bottom: 5vh;
+}
+
+.writtenSpell p{
+    margin: 0;
+}
+
+.spellAttackMod, .spellDamage, .castingTime, .spellRange, .spellInfo {
+    display: none;
+}
+
+.writtenSpell {
+    border: var(--borderColor) 5px solid;
+    border-radius: 30px;    
+    height: 5vh;
+    width: 60vw;
+    font-size: 2.5em;
+    margin-bottom: 1vh;
+}
+
+.writtenSpellList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.abilities {
+    text-align: center;
+    padding-bottom: 1vh;
+    margin-bottom: 5vh;
+}
+
+.abilitiesList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.abilityInfo {
+    display: none;
+}
+
+.writtenAbility {
+    border: var(--borderColor) 5px solid;
+    border-radius: 30px;    
+    height: 5vh;
+    width: 60vw;
+    font-size: 2.5em;
+    margin-bottom: 1vh;
+}
+
+.writtenAbility p {
+    margin: 0;
+}
+
+.addAbilityButton {
+    font-size: xx-large;
+    width: 8vw;
+    height: 3vh;
+}
+
+.notesText, .backstoryText {
+    width: 70vw;
+    height: 30vh;
+    font-size: 2em;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+}
+
+.notes, .backstory {
+    text-align: center;
+    padding-bottom: 1vh;
+    margin-bottom: 5vh;
+}   
