@@ -120,6 +120,7 @@
                     <p class="spellName">Fireball</p>
                     <p class="spellAttackMod">+4</p>
                     <p class="spellDamage">2d6</p>
+                    <p class="vsm">V</p>
                     <p class="castingTime">1 Action</p>
                     <p class="spellRange">60ft</p>
                     <p class="spellInfo">Assorted Fireball Information</p>
@@ -128,103 +129,103 @@
                     <p class="spellName">Fireball</p>
                     <p class="spellAttackMod">+4</p>
                     <p class="spellDamage">2d6</p>
+                    <p class="vsm">V</p>
                     <p class="castingTime">1 Action</p>
                     <p class="spellRange">60ft</p>
                     <p class="spellInfo">Assorted Fireball Information</p>
                 </div>    
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewCantripModal()">+</button>
             </div>
         </div>
 
         <div class="level1">
             <p class="headingText2 centerer">Level 1</p>
-            <div class="writtenSpellList">
-
+            <div class="writtenSpellList1">
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal1()">+</button>
             </div>
         </div>
 
         <div class="level2">
             <p class="headingText2 centerer">Level 2</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList2">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal2()">+</button>
             </div>
         </div>
 
         <div class="level3">
             <p class="headingText2 centerer">Level 3</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList3">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal3()">+</button>
             </div>
         </div>
 
         <div class="level4">
             <p class="headingText2 centerer">Level 4</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList4">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal4()">+</button>
             </div>
         </div>  
 
         <div class="level5">
             <p class="headingText2 centerer">Level 5</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList5">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal5()">+</button>
             </div>
         </div>  
 
         <div class="level6">
             <p class="headingText2 centerer">Level 6</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList6">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal6()">+</button>
             </div>
         </div>  
 
         <div class="level7">
             <p class="headingText2 centerer">Level 7</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList7">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal7()">+</button>
             </div>
         </div>
 
         <div class="level8">
             <p class="headingText2 centerer">Level 8</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList8">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal8()">+</button>
             </div>
         </div>  
 
         <div class="level9">
             <p class="headingText2 centerer">Level 9</p>
-            <div class="writtenSpellList">
+            <div class="writtenSpellList9">
                 
             </div>
             <div class="addSpell">
-                <button class="addSpellButton" type="button">+</button>
+                <button class="addSpellButton" type="button" onclick="openNewSpellModal9()">+</button>
             </div>
         </div>  
     </div>
@@ -237,20 +238,20 @@
             </div>
         </div>
         <div class="addAbility">
-            <button class="addAbilityButton" type="button">+</button>
+            <button class="addAbilityButton" type="button" onclick="openNewAbilitiesModal()">+</button>
         </div>
     </div>
     <div class="notes borderer">
         <p class="headingText centerer">Notes</p>
         <div class="centerer">
-            <textarea class="notesText" placeholder="Notes"></textarea>
+            <textarea class="notesText" placeholder="Notes" onblur="updateNotes()"></textarea>
         </div>
         
     </div>
     <div class="backstory borderer">
         <p class="headingText centerer">Backstory</p>
         <div class="centerer">
-            <textarea class="backstoryText" placeholder="Backstory"></textarea>
+            <textarea class="backstoryText" placeholder="Backstory" onblur="updateBackstory()"></textarea>
         </div>
     </div>
 
@@ -272,9 +273,276 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="newAbilitiesModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New Ability</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newCantripModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New Cantrip</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal1">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L1 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal2">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L2 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal3">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L3 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal4">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L4 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal5">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L5 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal6">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L6 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal7">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L7 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal8">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L8 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="newSpellModal9">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New L9 Spell</p>
+            <div class="modalBody centerer">
+                <p class= "modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Spell Attack Bonus</p>
+                <input class="modalInput spellAttackBonusInput" type="text" placeholder="Spell Attack Bonus">
+                <p class="modalText">Spell Damage</p>
+                <input class="modalInput spellDamageInput" type="text" placeholder="Spell Damage">
+                <p class="modalText">VSM</p>
+                <input class="modalInput vsmInput" type="text" placeholder="VSM">
+                <p class="modalText">Casting Time</p>
+                <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
+                <p class="modalText">Range</p>
+                <input class="modalInput rangeInput" type="text" placeholder="Range">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+        </div>
+    </div>
+
+
     <script>
         function openNewAttackModal() {
             document.getElementById("newAttackModal").style.display = "block";
+        }
+        function openNewAbilitiesModal() {
+            document.getElementById("newAbilitiesModal").style.display = "block";
+        }
+        function openNewCantripModal() {
+            document.getElementById("newCantripModal").style.display = "block";
+        }
+        function openNewSpellModal1() {
+            document.getElementById("newSpellModal1").style.display = "block";
+        }
+        function openNewSpellModal2() {
+            document.getElementById("newSpellModal2").style.display = "block";
+        }
+        function openNewSpellModal3() {
+            document.getElementById("newSpellModal3").style.display = "block";
+        }
+        function openNewSpellModal4() {
+            document.getElementById("newSpellModal4").style.display = "block";
+        }
+        function openNewSpellModal5() {
+            document.getElementById("newSpellModal5").style.display = "block";
+        }
+        function openNewSpellModal6() {
+            document.getElementById("newSpellModal6").style.display = "block";
+        }
+        function openNewSpellModal7() {
+            document.getElementById("newSpellModal7").style.display = "block";
+        }
+        function openNewSpellModal8() {
+            document.getElementById("newSpellModal8").style.display = "block";
+        }
+        function openNewSpellModal9() {
+            document.getElementById("newSpellModal9").style.display = "block";
         }
     </script>
 

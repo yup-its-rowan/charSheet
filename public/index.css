@@ -199,7 +199,7 @@ body {
     margin: 0;
 }
 
-.spellAttackMod, .spellDamage, .castingTime, .spellRange, .spellInfo {
+.spellAttackMod, .spellDamage, .vsm, .castingTime, .spellRange, .spellInfo {
     display: none;
 }
 
@@ -212,7 +212,7 @@ body {
     margin-bottom: 1vh;
 }
 
-.writtenSpellList {
+.writtenSpellList, .writtenSpellList1, .writtenSpellList2, .writtenSpellList3, .writtenSpellList4, .writtenSpellList5, .writtenSpellList6, .writtenSpellList7, .writtenSpellList8, .writtenSpellList9 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -293,7 +293,7 @@ body {
 .modalBody {
     display: grid;
     grid-template-columns: 30vw 30vw;
-    grid-template-rows: 10vh;
+    grid-auto-rows: 8vh;
     column-gap: 2vw;
     font-size: 2.8em;
 }
