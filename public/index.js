@@ -165,6 +165,66 @@ function spellButton(level, cantripName1, attackRollMod1, damageRoll1, vsm1, cas
     elem.appendChild(spell);
 }
 //make sure to keep updating this below
+function adjustVisibleCash(cp, sp, gp, pp){
+    var cash = document.getElementsByClassName("cash")[0];
+    cash.getElementsByClassName("copperValue")[0].innerHTML = cp;
+    cash.getElementsByClassName("silverValue")[0].innerHTML = sp;
+    cash.getElementsByClassName("goldValue")[0].innerHTML = gp;
+    cash.getElementsByClassName("platinumValue")[0].innerHTML = pp;
+}
+
+function adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma) {
+    var elem = document.getElementsByClassName("stats")[0];
+    var strMod = elem.getElementsByClassName("strMod")[0];
+    var dexMod = elem.getElementsByClassName("dexMod")[0];
+    var conMod = elem.getElementsByClassName("conMod")[0];
+    var intMod = elem.getElementsByClassName("intMod")[0];
+    var wisMod = elem.getElementsByClassName("wisMod")[0];
+    var chaMod = elem.getElementsByClassName("chaMod")[0];
+
+    strMod.innerHTML = statToMod(strength);
+    dexMod.innerHTML = statToMod(dexterity);
+    conMod.innerHTML = statToMod(constitution);
+    intMod.innerHTML = statToMod(intelligence);
+    wisMod.innerHTML = statToMod(wisdom);
+    chaMod.innerHTML = statToMod(charisma);
+}
+
+function statToMod(stat) {
+    if (stat <= 1) {
+        return "-5";
+    } else if (stat <= 3) {
+        return "-4";
+    } else if (stat <= 5) {
+        return "-3";
+    } else if (stat <= 7) {
+        return "-2";
+    } else if (stat <= 9) {
+        return "-1";
+    } else if (stat <= 11) {
+        return "+0";
+    } else if (stat <= 13) {
+        return "+1";
+    } else if (stat <= 15) {
+        return "+2";
+    } else if (stat <= 17) {
+        return "+3";
+    } else if (stat <= 19) {
+        return "+4";
+    } else if (stat <= 21) {
+        return "+5";
+    } else if (stat <= 23) {
+        return "+6";
+    } else if (stat <= 25) {
+        return "+7";
+    } else if (stat <= 27) {
+        return "+8";
+    } else if (stat <= 29) {
+        return "+9";
+    } else if (stat > 29) {
+        return "+10";
+    }
+}
 
 window.onclick = function(event) {
     newAttackModal = document.getElementById("newAttackModal");
@@ -179,6 +239,8 @@ window.onclick = function(event) {
     newSpellModal7 = document.getElementById("newSpellModal7");
     newSpellModal8 = document.getElementById("newSpellModal8");
     newSpellModal9 = document.getElementById("newSpellModal9");
+    statsModal = document.getElementById("statsModal");
+    cashModal = document.getElementById("cashModal");
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
             attackButton(newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("damageInput")[0].value, newAttackModal.getElementsByClassName("damageTypeInput")[0].value, newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
@@ -327,5 +389,55 @@ window.onclick = function(event) {
         newSpellModal9.getElementsByClassName("rangeInput")[0].value = "";
         newSpellModal9.getElementsByClassName("additionalInfoInput")[0].value = "";
         newSpellModal9.style.display = "none";
+    }
+    if (event.target == statsModal){
+        var strength = statsModal.getElementsByClassName("strengthInput")[0].value;
+        var dexterity = statsModal.getElementsByClassName("dexterityInput")[0].value;
+        var constitution = statsModal.getElementsByClassName("constitutionInput")[0].value;
+        var intelligence = statsModal.getElementsByClassName("intelligenceInput")[0].value;
+        var wisdom = statsModal.getElementsByClassName("wisdomInput")[0].value;
+        var charisma = statsModal.getElementsByClassName("charismaInput")[0].value;
+
+        if (strength == ""){
+            strength = 10;
+        }
+        if (dexterity == ""){
+            dexterity = 10;
+        }
+        if (constitution == ""){
+            constitution = 10;
+        }
+        if (intelligence == ""){
+            intelligence = 10;
+        }
+        if (wisdom == ""){
+            wisdom = 10;
+        }
+        if (charisma == ""){
+            charisma = 10;
+        }
+        adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma);
+        statsModal.style.display = "none";
+    }
+    if (event.target == cashModal) {
+        var cp = cashModal.getElementsByClassName("copperInput")[0].value;
+        var sp = cashModal.getElementsByClassName("silverInput")[0].value;
+        var gp = cashModal.getElementsByClassName("goldInput")[0].value;
+        var pp = cashModal.getElementsByClassName("platinumInput")[0].value;
+
+        if (cp == ""){
+            cp = 0;
+        }
+        if (sp == ""){
+            sp = 0;
+        }
+        if (gp == ""){
+            gp = 0;
+        }
+        if (pp == ""){
+            pp = 0;
+        }
+        adjustVisibleCash(cp, sp, gp, pp);
+        cashModal.style.display = "none";
     }
 }

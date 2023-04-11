@@ -9,36 +9,30 @@
 </head>
 <body>
     <div class="topGrid">
-        <div class="stats">
+        <div class="stats" onclick="openStatsModal()">
             <div class="strength innerStat">
                 <span class="statName">STR  </span>
-                <span class="statValue">10</span>
-                <span class="statMod">+0</span>
+                <span class="statMod strMod">+0</span>
             </div>    
             <div class="dexterity innerStat statTeeHee">
                 <span class="statName">DEX</span>
-                <span class="statValue">10</span>
-                <span class="statMod">+0</span>
+                <span class="statMod dexMod">+0</span>
             </div>
             <div class="constitution innerStat statTeeHee">
                 <span class="statName">CON</span>
-                <span class="statValue">10</span>
-                <span class="statMod">+0</span>
+                <span class="statMod conMod">+0</span>
             </div>  
             <div class="intelligence innerStat statTeeHee">
                 <span class="statName">INT</span>
-                <span class="statValue">10</span>
-                <span class="statMod">+0</span>
+                <span class="statMod intMod">+0</span>
             </div> 
             <div class="wisdom innerStat statTeeHee">
                 <span class="statName">WIS</span>
-                <span class="statValue">10</span>
-                <span class="statMod">+0</span>
+                <span class="statMod wisMod">+0</span>
             </div> 
             <div class="charisma innerStat statTeeHee">
                 <span class="statName">CHA</span>
-                <span class="statValue">10</span>
-                <span class="statMod">+0</span>
+                <span class="statMod chaMod">+0</span>
             </div>  
         </div>
         <div class="usefulInfo">
@@ -60,22 +54,22 @@
             </div>
         </div>
     </div>
-    <div class="cash">
+    <div class="cash" onclick="openCashModal()">
         <span class="cp">
             <span class="cashName">CP:</span>
-            <span class="cashValue">0</span>
+            <span class="cashValue copperValue">0</span>
         </span>
         <span class="sp">
             <span class="cashName">SP:</span>
-            <span class="cashValue">0</span>
+            <span class="cashValue silverValue">0</span>
         </span>
         <span class="gp">
             <span class="cashName">GP:</span>
-            <span class="cashValue">0</span>
+            <span class="cashValue goldValue">0</span>
         </span>
         <span class="pp">
             <span class="cashName">PP:</span>
-            <span class="cashValue">0</span>
+            <span class="cashValue platinumValue">0</span>
         </span>
     </div>
     <div class="attacks borderer">
@@ -268,8 +262,10 @@
                 <input class="modalInput damageInput" type="text" placeholder="Damage">
                 <p class="modalText">Damage Type</p>
                 <input class="modalInput damageTypeInput" type="text" placeholder="Damage Type">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -280,8 +276,10 @@
             <div class="modalBody centerer">
                 <p class="modalText">Name</p>
                 <input class="modalInput nameInput" type="text" placeholder="Name">
-                <p class="modalText">Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -302,8 +300,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -324,8 +324,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -346,8 +348,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -368,8 +372,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -390,8 +396,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -412,8 +420,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -434,8 +444,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -456,8 +468,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -478,8 +492,10 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
@@ -500,12 +516,49 @@
                 <input class="modalInput castingTimeInput" type="text" placeholder="Casting Time">
                 <p class="modalText">Range</p>
                 <input class="modalInput rangeInput" type="text" placeholder="Range">
-                <p class="modalText">Additional Info</p>
-                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+            </div>
+            <p class="modalText centerer additionalInfoHeading">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
             </div>
         </div>
     </div>
 
+    <div class="modal" id="statsModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Stats</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Strength</p>
+                <input class="modalInput strengthInput" type="text" placeholder="Strength">
+                <p class="modalText">Dexterity</p>
+                <input class="modalInput dexterityInput" type="text" placeholder="Dexterity">
+                <p class="modalText">Constitution</p>
+                <input class="modalInput constitutionInput" type="text" placeholder="Constitution">
+                <p class="modalText">Intelligence</p>
+                <input class="modalInput intelligenceInput" type="text" placeholder="Intelligence">
+                <p class="modalText">Wisdom</p>
+                <input class="modalInput wisdomInput" type="text" placeholder="Wisdom">
+                <p class="modalText">Charisma</p>
+                <input class="modalInput charismaInput" type="text" placeholder="Charisma">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="cashModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Cash</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Copper</p>
+                <input class="modalInput copperInput" type="text" placeholder="Copper">
+                <p class="modalText">Silver</p>
+                <input class="modalInput silverInput" type="text" placeholder="Silver">
+                <p class="modalText">Gold</p>
+                <input class="modalInput goldInput" type="text" placeholder="Gold">
+                <p class="modalText">Platinum</p>
+                <input class="modalInput platinumInput" type="text" placeholder="Platinum">
+            </div>
+        </div>
+    </div>
 
     <script>
         function openNewAttackModal() {
@@ -543,6 +596,12 @@
         }
         function openNewSpellModal9() {
             document.getElementById("newSpellModal9").style.display = "block";
+        }
+        function openStatsModal() {
+            document.getElementById("statsModal").style.display = "block";
+        }
+        function openCashModal() {
+            document.getElementById("cashModal").style.display = "block";
         }
     </script>
 

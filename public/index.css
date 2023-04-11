@@ -304,3 +304,21 @@ body {
     font-size: 0.5em;
     text-align: center;
 }
+
+.textAreaModal {
+    font-size: 2em;
+    text-align: center;
+}
+
+.additionalInfoInput {
+    height: 15vh;
+    width: 60vw;
+    border: 2px solid var(--borderColor);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.additionalInfoHeading{
+    font-size: 2.8em;
+    margin-bottom: 1vh;
+}
