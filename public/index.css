@@ -90,7 +90,10 @@ body {
     border: 10px solid var(--borderColor);
     border-radius: 30px;
 }
-
+.bordererLight {
+    border: 5px solid var(--borderColor);
+    border-radius: 20px;
+}
 .nameDiv {
     height: 35%;
     width: 100%;      
@@ -175,12 +178,12 @@ body {
 }
 
 .spellslots {
-    margin: 2vh 0vw;
+    margin: 2vh 1vw;
     font-size: 2em;
 }
 
 .lvl {
-    padding-right: 3vw;
+    padding-right: 2.5vw;
 }
 
 .addSpellButton {
@@ -321,4 +324,19 @@ body {
 .additionalInfoHeading{
     font-size: 2.8em;
     margin-bottom: 1vh;
+}
+
+.modalInputSpellslot {
+    height: 4vh;
+    border: 2px solid var(--borderColor);
+    font-size: 1em;
+    text-align: center;
+}
+
+.modalBodySpellslot {
+    display: grid;
+    grid-template-columns: 30vw 10vw 10vw 10vw;
+    grid-auto-rows: 8vh;
+    column-gap: 2vw;
+    font-size: 2.8em;
 }

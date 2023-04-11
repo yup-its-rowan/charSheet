@@ -164,7 +164,7 @@ function spellButton(level, cantripName1, attackRollMod1, damageRoll1, vsm1, cas
     spell.appendChild(additionalInfo);
     elem.appendChild(spell);
 }
-//make sure to keep updating this below
+
 function adjustVisibleCash(cp, sp, gp, pp){
     var cash = document.getElementsByClassName("cash")[0];
     cash.getElementsByClassName("copperValue")[0].innerHTML = cp;
@@ -188,6 +188,19 @@ function adjustVisibleMods(strength, dexterity, constitution, intelligence, wisd
     intMod.innerHTML = statToMod(intelligence);
     wisMod.innerHTML = statToMod(wisdom);
     chaMod.innerHTML = statToMod(charisma);
+}
+
+function adjustVisibleAC(ac){
+    var elem = document.getElementsByClassName("ACHPDiv")[0];
+    var acElem = elem.getElementsByClassName("ACDiv")[0];
+    acElem.innerHTML = ac;
+}
+
+function adjustVisibleHP(chp, mhp){
+    var elem = document.getElementsByClassName("ACHPDiv")[0];
+    var hpElem = elem.getElementsByClassName("HPDiv")[0];
+
+    hpElem.innerHTML = chp + "/" + mhp;
 }
 
 function statToMod(stat) {
@@ -226,6 +239,20 @@ function statToMod(stat) {
     }
 }
 
+function adjustSpellslots(l11, l21, l31, l41, l51, l61, l71, l81, l91, lki1) {
+    var elem = document.getElementsByClassName("spellslots")[0];
+    elem.getElementsByClassName("lvl1")[0].innerHTML = l11;
+    elem.getElementsByClassName("lvl2")[0].innerHTML = l21;
+    elem.getElementsByClassName("lvl3")[0].innerHTML = l31;
+    elem.getElementsByClassName("lvl4")[0].innerHTML = l41;
+    elem.getElementsByClassName("lvl5")[0].innerHTML = l51;
+    elem.getElementsByClassName("lvl6")[0].innerHTML = l61;
+    elem.getElementsByClassName("lvl7")[0].innerHTML = l71;
+    elem.getElementsByClassName("lvl8")[0].innerHTML = l81;
+    elem.getElementsByClassName("lvl9")[0].innerHTML = l91;
+    elem.getElementsByClassName("lvlki")[0].innerHTML = lki1;
+}
+//make sure to keep updating this below
 window.onclick = function(event) {
     newAttackModal = document.getElementById("newAttackModal");
     newAbilityModal = document.getElementById("newAbilitiesModal");
@@ -241,6 +268,10 @@ window.onclick = function(event) {
     newSpellModal9 = document.getElementById("newSpellModal9");
     statsModal = document.getElementById("statsModal");
     cashModal = document.getElementById("cashModal");
+    spellSlotsModal = document.getElementById("spellSlotsModal");
+    ACModal = document.getElementById("ACModal");
+    HPModal = document.getElementById("HPModal");
+
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
             attackButton(newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("damageInput")[0].value, newAttackModal.getElementsByClassName("damageTypeInput")[0].value, newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
@@ -440,4 +471,40 @@ window.onclick = function(event) {
         adjustVisibleCash(cp, sp, gp, pp);
         cashModal.style.display = "none";
     }
+    if (event.target == spellSlotsModal) {
+        var l1 = spellSlotsModal.getElementsByClassName("spellSlot1Input")[0].value;
+        var l2 = spellSlotsModal.getElementsByClassName("spellSlot2Input")[0].value;
+        var l3 = spellSlotsModal.getElementsByClassName("spellSlot3Input")[0].value;
+        var l4 = spellSlotsModal.getElementsByClassName("spellSlot4Input")[0].value;
+        var l5 = spellSlotsModal.getElementsByClassName("spellSlot5Input")[0].value;
+        var l6 = spellSlotsModal.getElementsByClassName("spellSlot6Input")[0].value;
+        var l7 = spellSlotsModal.getElementsByClassName("spellSlot7Input")[0].value;
+        var l8 = spellSlotsModal.getElementsByClassName("spellSlot8Input")[0].value;
+        var l9 = spellSlotsModal.getElementsByClassName("spellSlot9Input")[0].value;
+        var lKi = spellSlotsModal.getElementsByClassName("spellSlotKiInput")[0].value;
+
+        adjustSpellslots(l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi);        
+        spellSlotsModal.style.display = "none";
+    }
+    if (event.target == ACModal) {
+        var ac = ACModal.getElementsByClassName("armorInput")[0].value;   
+        if (ac == ""){
+            ac = 10;
+        }  
+        adjustVisibleAC(ac);
+        ACModal.style.display = "none";
+    }
+    if (event.target == HPModal) {
+        var chp = HPModal.getElementsByClassName("chpInput")[0].value;   
+        var mhp = HPModal.getElementsByClassName("mhpInput")[0].value;
+        if (chp == ""){
+            chp = 0;
+        }  
+        if (mhp == ""){
+            mhp = 0;
+        }
+        adjustVisibleHP(chp, mhp);
+        HPModal.style.display = "none";
+    }
+
 }

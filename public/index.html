@@ -45,10 +45,10 @@
                 <span class="classDivLevel">1</span>
             </div>
             <div class="ACHPDiv">
-                <div class="ACDiv centerer borderer">
-                    18
+                <div class="ACDiv centerer borderer" onclick="openACModal()">
+                    10
                 </div> 
-                <div class="HPDiv centerer borderer">
+                <div class="HPDiv centerer borderer" onclick="openHPModal()">
                     30/30
                 </div>
             </div>
@@ -96,7 +96,7 @@
     </div>
     <div class="spells borderer">
         <p class="headingText centerer ">Spellbook</p>
-            <div class="spellslots centerer">
+            <div class="spellslots centerer" onClick="openSpellSlotsModal()">
                 L1: <span class="lvl1 lvl">0</span>
                 L2: <span class="lvl2 lvl">0</span>
                 L3: <span class="lvl3 lvl">0</span>
@@ -105,7 +105,8 @@
                 L6: <span class="lvl6 lvl">0</span>
                 L7: <span class="lvl7 lvl">0</span>
                 L8: <span class="lvl8 lvl">0</span>
-                L9: <span class="lvl9">0</span>
+                L9: <span class="lvl9 lvl">0</span>
+                Ki: <span class="lvlki">0</span>
             </div>
         <div class="cantrips">
             <p class="headingText2 centerer">Cantrips</p>
@@ -529,17 +530,17 @@
             <p class="modalHeading centerer headingText">Stats</p>
             <div class="modalBody centerer">
                 <p class="modalText">Strength</p>
-                <input class="modalInput strengthInput" type="text" placeholder="Strength">
+                <input class="modalInput strengthInput" type="number" placeholder="Strength" value="10">
                 <p class="modalText">Dexterity</p>
-                <input class="modalInput dexterityInput" type="text" placeholder="Dexterity">
+                <input class="modalInput dexterityInput" type="number" placeholder="Dexterity" value="10">
                 <p class="modalText">Constitution</p>
-                <input class="modalInput constitutionInput" type="text" placeholder="Constitution">
+                <input class="modalInput constitutionInput" type="number" placeholder="Constitution" value="10">
                 <p class="modalText">Intelligence</p>
-                <input class="modalInput intelligenceInput" type="text" placeholder="Intelligence">
+                <input class="modalInput intelligenceInput" type="number" placeholder="Intelligence" value="10">
                 <p class="modalText">Wisdom</p>
-                <input class="modalInput wisdomInput" type="text" placeholder="Wisdom">
+                <input class="modalInput wisdomInput" type="number" placeholder="Wisdom" value="10">
                 <p class="modalText">Charisma</p>
-                <input class="modalInput charismaInput" type="text" placeholder="Charisma">
+                <input class="modalInput charismaInput" type="number" placeholder="Charisma" value="10">
             </div>
         </div>
     </div>
@@ -549,13 +550,89 @@
             <p class="modalHeading centerer headingText">Cash</p>
             <div class="modalBody centerer">
                 <p class="modalText">Copper</p>
-                <input class="modalInput copperInput" type="text" placeholder="Copper">
+                <input class="modalInput copperInput" type="number" placeholder="Copper" value="0">
                 <p class="modalText">Silver</p>
-                <input class="modalInput silverInput" type="text" placeholder="Silver">
+                <input class="modalInput silverInput" type="number" placeholder="Silver" value="0">
                 <p class="modalText">Gold</p>
-                <input class="modalInput goldInput" type="text" placeholder="Gold">
+                <input class="modalInput goldInput" type="number" placeholder="Gold" value="0">
                 <p class="modalText">Platinum</p>
-                <input class="modalInput platinumInput" type="text" placeholder="Platinum">
+                <input class="modalInput platinumInput" type="number" placeholder="Platinum" value="0">
+            </div>
+        </div>
+    </div>
+
+    <div class ="modal" id ="spellSlotsModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Spellslots</p>
+            <div class="modalBodySpellslot centerer">
+                <p class="modalText">Level 1</p>
+                <p onclick="spellSlotChanger(-1, 1)">-</p>
+                <input class="modalInputSpellslot spellSlot1Input" type="number" placeholder="Level 1" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 1)">+</p>
+                <p class="modalText">Level 2</p>
+                <p onclick="spellSlotChanger(-1, 2)">-</p>
+                <input class="modalInputSpellslot spellSlot2Input" type="number" placeholder="Level 2" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 2)">+</p>
+                <p class="modalText">Level 3</p>
+                <p onclick="spellSlotChanger(-1, 3)">-</p>
+                <input class="modalInputSpellslot spellSlot3Input" type="number" placeholder="Level 3" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 3)">+</p>
+                <p class="modalText">Level 4</p>
+                <p onclick="spellSlotChanger(-1, 4)">-</p>
+                <input class="modalInputSpellslot spellSlot4Input" type="number" placeholder="Level 4" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 4)">+</p>
+                <p class="modalText">Level 5</p>
+                <p onclick="spellSlotChanger(-1, 5)">-</p>
+                <input class="modalInputSpellslot spellSlot5Input" type="number" placeholder="Level 5" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 5)">+</p>
+                <p class="modalText">Level 6</p>
+                <p onclick="spellSlotChanger(-1, 6)">-</p>
+                <input class="modalInputSpellslot spellSlot6Input" type="number" placeholder="Level 6" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 6)">+</p>
+                <p class="modalText">Level 7</p> 
+                <p onclick="spellSlotChanger(-1, 7)">-</p>
+                <input class="modalInputSpellslot spellSlot7Input" type="number" placeholder="Level 7" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 7)">+</p>
+                <p class="modalText">Level 8</p>
+                <p onclick="spellSlotChanger(-1, 8)">-</p>
+                <input class="modalInputSpellslot spellSlot8Input" type="number" placeholder="Level 8" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 8)">+</p>
+                <p class="modalText">Level 9</p>
+                <p onclick="spellSlotChanger(-1, 9)">-</p>
+                <input class="modalInputSpellslot spellSlot9Input" type="number" placeholder="Level 9" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 9)">+</p>
+                <p class="modalText">Ki Points</p>
+                <p onclick="spellSlotChanger(-1, 'Ki')">-</p>
+                <input class="modalInputSpellslot spellSlotKiInput" type="number" placeholder="Ki Points" value="0" disabled>
+                <p onclick="spellSlotChanger(1, 'Ki')">+</p>
+            </div>
+            <script>
+                function spellSlotChanger(val, which){
+                    element = document.getElementsByClassName("spellSlot" + which + "Input")[0];
+                    element.value = parseInt(element.value) + val;
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="modal" id ="ACModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Armor Class</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Armor Class</p>
+                <input class="modalInput armorInput" type="number" placeholder="Armor Class" value="10">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id ="HPModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Health Points</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Current HP</p>
+                <input class="modalInput chpInput" type="number" placeholder="Current HP" value="10">
+                <p class="modalText">Max HP</p>
+                <input class="modalInput mhpInput" type="number" placeholder="Max HP" value="10">
             </div>
         </div>
     </div>
@@ -602,6 +679,15 @@
         }
         function openCashModal() {
             document.getElementById("cashModal").style.display = "block";
+        }
+        function openSpellSlotsModal() {
+            document.getElementById("spellSlotsModal").style.display = "block";
+        }
+        function openACModal(){
+            document.getElementById("ACModal").style.display = "block";
+        }
+        function openHPModal(){
+            document.getElementById("HPModal").style.display = "block";
         }
     </script>
 
