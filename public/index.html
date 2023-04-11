@@ -97,7 +97,7 @@
             </div>
         </div>
         <div class="addAttack">
-            <button class="addAttackButton" type="button" onclick="attackButton()">+</button>
+            <button class="addAttackButton" type="button" onclick="openNewAttackModal()">+</button>
         </div>
     </div>
     <div class="spells borderer">
@@ -255,7 +255,27 @@
     </div>
 
     <!-- MODAL TIME-->
-
+    <div class="modal" id="newAttackModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">New Martial Attack</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Name</p>
+                <input class="modalInput nameInput" type="text" placeholder="Name">
+                <p class="modalText">Attack Bonus</p>
+                <input class="modalInput attackBonusInput" type="text" placeholder="Attack Bonus">
+                <p class="modalText">Damage</p>            
+                <input class="modalInput damageInput" type="text" placeholder="Damage">
+                <p class="modalText">Damage Type</p>
+                <input class="modalInput damageTypeInput" type="text" placeholder="Damage Type">
+                <p class="modalText">Additional Info</p>
+                <input class="modalInput additionalInfoInput" type="text" placeholder="Additional Info">
+        </div>
+    </div>
+    <script>
+        function openNewAttackModal() {
+            document.getElementById("newAttackModal").style.display = "block";
+        }
+    </script>
 
 
 </body>
