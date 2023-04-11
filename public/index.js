@@ -78,10 +78,20 @@ function attackButton(weapon1, attackRollMod1, damageRoll1, damageType1, additio
 }
 
 //make sure to keep updating this below
+
 window.onclick = function(event) {
     newAttackModal = document.getElementById("newAttackModal");
     if (event.target == newAttackModal) {
+        if (newAttackModal.getElementsByClassName("nameInput")[0].value == ""){
+            newAttackModal.style.display = "none";
+            return;
+        }
         attackButton(newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("damageInput")[0].value, newAttackModal.getElementsByClassName("damageTypeInput")[0].value, newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
+        newAttackModal.getElementsByClassName("nameInput")[0].value = "";
+        newAttackModal.getElementsByClassName("attackBonusInput")[0].value = "";
+        newAttackModal.getElementsByClassName("damageInput")[0].value = "";
+        newAttackModal.getElementsByClassName("damageTypeInput")[0].value = "";
+        newAttackModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newAttackModal.style.display = "none";
     }
 }
