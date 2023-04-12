@@ -39,7 +39,7 @@
             <div class="nameDiv centerer borderer">
                 Bilbo Swaggins
             </div>
-            <div class="classDiv centerer borderer"> 
+            <div class="classDiv centerer borderer" onclick="openClassModal()"> 
                 <span class="classDivRace">Gnome</span>
                 <span class="classDivClass">Wizard</span>
                 <span class="classDivLevel">1</span>
@@ -75,14 +75,14 @@
     <div class="attacks borderer">
         <p class="headingText">Attacks</p>
         <div class="writtenAttackList">
-            <div class="writtenAttack centerer">
-                <p class="weapon">Greatsword</p>
+            <div class="writtenAttack centerer" onclick="openSelectedAttackModal(this)">
+                <p class="weapon">Great3sword</p>
                 <p class="attackRollMod">+4</p>
                 <p class="damageRoll">2d6</p>
-                <p class="damageType">Slashing</p>
-                <p class="additionalInfo">Looks Pretty</p>
+                <p class="damageType">Smacking</p>
+                <p class="additionalInfo">Looks Ugly</p>
             </div>
-            <div class="writtenAttack centerer">
+            <div class="writtenAttack centerer" onclick="openSelectedAttackModal(this)">
                 <p class="weapon">Greatsword</p>
                 <p class="attackRollMod">+4</p>
                 <p class="damageRoll">2d6</p>
@@ -258,7 +258,7 @@
                 <p class="modalText">Name</p>
                 <input class="modalInput nameInput" type="text" placeholder="Name">
                 <p class="modalText">Attack Bonus</p>
-                <input class="modalInput attackBonusInput" type="text" placeholder="Attack Bonus">
+                <input class="modalInput attackBonusInput" type="text" placeholder="Attack Bonus" value="+">
                 <p class="modalText">Damage</p>            
                 <input class="modalInput damageInput" type="text" placeholder="Damage">
                 <p class="modalText">Damage Type</p>
@@ -630,67 +630,48 @@
             <p class="modalHeading centerer headingText">Health Points</p>
             <div class="modalBody centerer">
                 <p class="modalText">Current HP</p>
-                <input class="modalInput chpInput" type="number" placeholder="Current HP" value="10">
+                <input class="modalInput chpInput" type="number" placeholder="Current HP" value="30">
                 <p class="modalText">Max HP</p>
-                <input class="modalInput mhpInput" type="number" placeholder="Max HP" value="10">
+                <input class="modalInput mhpInput" type="number" placeholder="Max HP" value="30">
             </div>
         </div>
     </div>
 
-    <script>
-        function openNewAttackModal() {
-            document.getElementById("newAttackModal").style.display = "block";
-        }
-        function openNewAbilitiesModal() {
-            document.getElementById("newAbilitiesModal").style.display = "block";
-        }
-        function openNewCantripModal() {
-            document.getElementById("newCantripModal").style.display = "block";
-        }
-        function openNewSpellModal1() {
-            document.getElementById("newSpellModal1").style.display = "block";
-        }
-        function openNewSpellModal2() {
-            document.getElementById("newSpellModal2").style.display = "block";
-        }
-        function openNewSpellModal3() {
-            document.getElementById("newSpellModal3").style.display = "block";
-        }
-        function openNewSpellModal4() {
-            document.getElementById("newSpellModal4").style.display = "block";
-        }
-        function openNewSpellModal5() {
-            document.getElementById("newSpellModal5").style.display = "block";
-        }
-        function openNewSpellModal6() {
-            document.getElementById("newSpellModal6").style.display = "block";
-        }
-        function openNewSpellModal7() {
-            document.getElementById("newSpellModal7").style.display = "block";
-        }
-        function openNewSpellModal8() {
-            document.getElementById("newSpellModal8").style.display = "block";
-        }
-        function openNewSpellModal9() {
-            document.getElementById("newSpellModal9").style.display = "block";
-        }
-        function openStatsModal() {
-            document.getElementById("statsModal").style.display = "block";
-        }
-        function openCashModal() {
-            document.getElementById("cashModal").style.display = "block";
-        }
-        function openSpellSlotsModal() {
-            document.getElementById("spellSlotsModal").style.display = "block";
-        }
-        function openACModal(){
-            document.getElementById("ACModal").style.display = "block";
-        }
-        function openHPModal(){
-            document.getElementById("HPModal").style.display = "block";
-        }
-    </script>
+    <div class="modal" id ="classModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Character Info</p>
+            <div class="modalBody centerer">
+                <p class="modalText">Race</p>
+                <input class="modalInput raceInput" type="text" placeholder="Race">
+                <p class="modalText">Class</p>
+                <input class="modalInput classInput" type="text" placeholder="Class">
+                <p class="modalText">Level</p>
+                <input class="modalInput levelInput" type="number" placeholder="Level" value="1">
+            </div>
+        </div>
+    </div>
 
+    <div class="modal" id="selectedAttackModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Greatsword</p>
+            <div class="modalBodyBig centerer">
+                <p class="modalText">Attack Roll</p>
+                <p class="modalOutput attackRollSolid borderer centerer"></p>
+                <p class="modalOutput damageRollSolid borderer centerer"></p>
+                <div>
+                    <p class="damagingType centerer" style="margin: 0;">Slashing</p>
+                    <p class="modalText" style="margin: 0;">Damage</p>
+                </div>
+            </div>
+            <p class="modalText centerer additionalInfoHeading" style="margin-top: 10vh;">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModal" placeholder="Additional Info"></textarea>
+            </div>
+            <div class = "centerer" style="margin-top: 7vh;">
+                <button class="deleteSelectedAttackButton">Delete</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 <div class="footer">

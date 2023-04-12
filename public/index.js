@@ -77,6 +77,7 @@ function attackButton(weapon1, attackRollMod1, damageRoll1, damageType1, additio
     writtenAttack1.appendChild(damageRoll);
     writtenAttack1.appendChild(damageType);
     writtenAttack1.appendChild(additionalInfo);
+    writtenAttack1.onclick = function() {openSelectedAttackModal(writtenAttack1)};
     elem.appendChild(writtenAttack1);
 }
 
@@ -252,6 +253,14 @@ function adjustSpellslots(l11, l21, l31, l41, l51, l61, l71, l81, l91, lki1) {
     elem.getElementsByClassName("lvl9")[0].innerHTML = l91;
     elem.getElementsByClassName("lvlki")[0].innerHTML = lki1;
 }
+
+function adjustVisibleClass(race, clas, level){
+    var elem = document.getElementsByClassName("classDiv")[0];
+    elem.getElementsByClassName("classDivRace")[0].innerHTML = race;
+    elem.getElementsByClassName("classDivClass")[0].innerHTML = clas;
+    elem.getElementsByClassName("classDivLevel")[0].innerHTML = level;
+}
+
 //make sure to keep updating this below
 window.onclick = function(event) {
     newAttackModal = document.getElementById("newAttackModal");
@@ -271,6 +280,8 @@ window.onclick = function(event) {
     spellSlotsModal = document.getElementById("spellSlotsModal");
     ACModal = document.getElementById("ACModal");
     HPModal = document.getElementById("HPModal");
+    classModal = document.getElementById("classModal");
+    selectedAttackModal = document.getElementById("selectedAttackModal");
 
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
@@ -506,5 +517,90 @@ window.onclick = function(event) {
         adjustVisibleHP(chp, mhp);
         HPModal.style.display = "none";
     }
+    if (event.target == classModal) {
+        var classInput = classModal.getElementsByClassName("classInput")[0].value;   
+        var raceInput = classModal.getElementsByClassName("raceInput")[0].value;
+        var levelInput = classModal.getElementsByClassName("levelInput")[0].value;
 
+        if (classInput == ""){
+            classInput = "Input Class";
+        }  
+        if (raceInput == ""){
+            raceInput = "Input Race";
+        }
+        if (levelInput == ""){
+            levelInput = 1;
+        }
+        adjustVisibleClass(raceInput, classInput, levelInput);
+        classModal.style.display = "none";
+    }
+    if (event.target == selectedAttackModal) {
+        selectedAttackModal.style.display = "none";
+    }
+
+}
+
+function openNewAttackModal() {
+    document.getElementById("newAttackModal").style.display = "block";
+}
+function openNewAbilitiesModal() {
+    document.getElementById("newAbilitiesModal").style.display = "block";
+}
+function openNewCantripModal() {
+    document.getElementById("newCantripModal").style.display = "block";
+}
+function openNewSpellModal1() {
+    document.getElementById("newSpellModal1").style.display = "block";
+}
+function openNewSpellModal2() {
+    document.getElementById("newSpellModal2").style.display = "block";
+}
+function openNewSpellModal3() {
+    document.getElementById("newSpellModal3").style.display = "block";
+}
+function openNewSpellModal4() {
+    document.getElementById("newSpellModal4").style.display = "block";
+}
+function openNewSpellModal5() {
+    document.getElementById("newSpellModal5").style.display = "block";
+}
+function openNewSpellModal6() {
+    document.getElementById("newSpellModal6").style.display = "block";
+}
+function openNewSpellModal7() {
+    document.getElementById("newSpellModal7").style.display = "block";
+}
+function openNewSpellModal8() {
+    document.getElementById("newSpellModal8").style.display = "block";
+}
+function openNewSpellModal9() {
+    document.getElementById("newSpellModal9").style.display = "block";
+}
+function openStatsModal() {
+    document.getElementById("statsModal").style.display = "block";
+}
+function openCashModal() {
+    document.getElementById("cashModal").style.display = "block";
+}
+function openSpellSlotsModal() {
+    document.getElementById("spellSlotsModal").style.display = "block";
+}
+function openACModal(){
+    document.getElementById("ACModal").style.display = "block";
+}
+function openHPModal(){
+    document.getElementById("HPModal").style.display = "block";
+}
+function openClassModal(){
+    document.getElementById("classModal").style.display = "block";
+}
+function openSelectedAttackModal(obj){
+    selectedAttackModal = document.getElementById("selectedAttackModal");
+    selectedAttackModal.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("weapon")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("attackRollSolid")[0].innerHTML = "d20" + obj.getElementsByClassName("attackRollMod")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML = obj.getElementsByClassName("damageType")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("textAreaModal")[0].innerHTML = obj.getElementsByClassName("additionalInfo")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none";};
+    document.getElementById("selectedAttackModal").style.display = "block";
 }
