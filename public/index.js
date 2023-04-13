@@ -63,10 +63,10 @@ function attackButton(weapon1, modSelect, proficiency, attackRollMod1, damageRol
     if (proficiency == null){
         proficiency = false;
     }
-    if (attackRollMod1 == null){
+    if (attackRollMod1 == ""){
         attackRollMod1 = "0";
     }
-    if (damageRoll1 == null){
+    if (damageRoll1 == ""){
         damageRoll1 = "1";
     }
     if (damageType1 == null){
@@ -197,6 +197,7 @@ function spellButton(level, cantripName1, attackRollMod1, damageRoll1, vsm1, cas
     spell.appendChild(castingTime);
     spell.appendChild(range);
     spell.appendChild(additionalInfo);
+    spell.onclick = function() {openSelectedSpellModal(spell)};
     elem.appendChild(spell);
 }
 
@@ -299,16 +300,8 @@ function adjustVisibleClass(race, clas, level){
 window.onclick = function(event) {
     newAttackModal = document.getElementById("newAttackModal");
     newAbilityModal = document.getElementById("newAbilitiesModal");
-    newCantripModal = document.getElementById("newCantripModal");
-    newSpellModal1 = document.getElementById("newSpellModal1");
-    newSpellModal2 = document.getElementById("newSpellModal2");
-    newSpellModal3 = document.getElementById("newSpellModal3");
-    newSpellModal4 = document.getElementById("newSpellModal4");
-    newSpellModal5 = document.getElementById("newSpellModal5");
-    newSpellModal6 = document.getElementById("newSpellModal6");
-    newSpellModal7 = document.getElementById("newSpellModal7");
-    newSpellModal8 = document.getElementById("newSpellModal8");
-    newSpellModal9 = document.getElementById("newSpellModal9");
+    newCantripModal = document.getElementById("newSpellModalCantrip");
+    newSpellModal = document.getElementById("newSpellModal");
     statsModal = document.getElementById("statsModal");
     cashModal = document.getElementById("cashModal");
     spellSlotsModal = document.getElementById("spellSlotsModal");
@@ -317,6 +310,7 @@ window.onclick = function(event) {
     classModal = document.getElementById("classModal");
     selectedAttackModal = document.getElementById("selectedAttackModal");
     selectedAbilityModal = document.getElementById("selectedAbilityModal");
+    selectedSpellModal = document.getElementById("selectedSpellModal");
 
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
@@ -352,122 +346,20 @@ window.onclick = function(event) {
         newCantripModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newCantripModal.style.display = "none";
     }
-    if (event.target == newSpellModal1) {
-        if (newSpellModal1.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("1", newSpellModal1.getElementsByClassName("nameInput")[0].value, newSpellModal1.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal1.getElementsByClassName("spellDamageInput")[0].value, newSpellModal1.getElementsByClassName("vsmInput")[0].value, newSpellModal1.getElementsByClassName("castingTimeInput")[0].value, newSpellModal1.getElementsByClassName("rangeInput")[0].value, newSpellModal1.getElementsByClassName("additionalInfoInput")[0].value);
+    if (event.target == newSpellModal) {
+        var level = document.getElementsByClassName("levelOfNewSpell")[0].innerHTML;
+        newSpellModal.getElementsByClassName("vsmInput")[0].value = newSpellModal.getElementsByClassName("vsmInput")[0].value.toLocaleLowerCase();
+        if (newSpellModal.getElementsByClassName("nameInput")[0].value != ""){   
+            spellButton(level, newSpellModal.getElementsByClassName("nameInput")[0].value, newSpellModal.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal.getElementsByClassName("spellDamageInput")[0].value, newSpellModal.getElementsByClassName("vsmInput")[0].value, newSpellModal.getElementsByClassName("castingTimeInput")[0].value, newSpellModal.getElementsByClassName("rangeInput")[0].value, newSpellModal.getElementsByClassName("additionalInfoInput")[0].value);
         }
-        newSpellModal1.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal1.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal1.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal1.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal1.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal1.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal1.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal1.style.display = "none";
-    }
-    if (event.target == newSpellModal2) {
-        if (newSpellModal2.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("2", newSpellModal2.getElementsByClassName("nameInput")[0].value, newSpellModal2.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal2.getElementsByClassName("spellDamageInput")[0].value, newSpellModal2.getElementsByClassName("vsmInput")[0].value, newSpellModal2.getElementsByClassName("castingTimeInput")[0].value, newSpellModal2.getElementsByClassName("rangeInput")[0].value, newSpellModal2.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal2.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal2.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal2.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal2.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal2.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal2.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal2.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal2.style.display = "none";
-    }
-    if (event.target == newSpellModal3) {
-        if (newSpellModal3.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("3", newSpellModal3.getElementsByClassName("nameInput")[0].value, newSpellModal3.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal3.getElementsByClassName("spellDamageInput")[0].value, newSpellModal3.getElementsByClassName("vsmInput")[0].value, newSpellModal3.getElementsByClassName("castingTimeInput")[0].value, newSpellModal3.getElementsByClassName("rangeInput")[0].value, newSpellModal3.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal3.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal3.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal3.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal3.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal3.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal3.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal3.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal3.style.display = "none";
-    }
-    if (event.target == newSpellModal4) {
-        if (newSpellModal4.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("4", newSpellModal4.getElementsByClassName("nameInput")[0].value, newSpellModal4.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal4.getElementsByClassName("spellDamageInput")[0].value, newSpellModal4.getElementsByClassName("vsmInput")[0].value, newSpellModal4.getElementsByClassName("castingTimeInput")[0].value, newSpellModal4.getElementsByClassName("rangeInput")[0].value, newSpellModal4.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal4.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal4.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal4.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal4.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal4.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal4.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal4.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal4.style.display = "none";
-    }
-    if (event.target == newSpellModal5) {
-        if (newSpellModal5.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("5", newSpellModal5.getElementsByClassName("nameInput")[0].value, newSpellModal5.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal5.getElementsByClassName("spellDamageInput")[0].value, newSpellModal5.getElementsByClassName("vsmInput")[0].value, newSpellModal5.getElementsByClassName("castingTimeInput")[0].value, newSpellModal5.getElementsByClassName("rangeInput")[0].value, newSpellModal5.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal5.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal5.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal5.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal5.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal5.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal5.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal5.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal5.style.display = "none";
-    }
-    if (event.target == newSpellModal6) {
-        if (newSpellModal6.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("6", newSpellModal6.getElementsByClassName("nameInput")[0].value, newSpellModal6.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal6.getElementsByClassName("spellDamageInput")[0].value, newSpellModal6.getElementsByClassName("vsmInput")[0].value, newSpellModal6.getElementsByClassName("castingTimeInput")[0].value, newSpellModal6.getElementsByClassName("rangeInput")[0].value, newSpellModal6.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal6.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal6.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal6.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal6.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal6.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal6.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal6.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal6.style.display = "none";
-    }
-    if (event.target == newSpellModal7) {
-        if (newSpellModal7.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("7", newSpellModal7.getElementsByClassName("nameInput")[0].value, newSpellModal7.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal7.getElementsByClassName("spellDamageInput")[0].value, newSpellModal7.getElementsByClassName("vsmInput")[0].value, newSpellModal7.getElementsByClassName("castingTimeInput")[0].value, newSpellModal7.getElementsByClassName("rangeInput")[0].value, newSpellModal7.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal7.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal7.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal7.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal7.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal7.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal7.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal7.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal7.style.display = "none";
-    }
-    if (event.target == newSpellModal8) {
-        if (newSpellModal8.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("8", newSpellModal8.getElementsByClassName("nameInput")[0].value, newSpellModal8.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal8.getElementsByClassName("spellDamageInput")[0].value, newSpellModal8.getElementsByClassName("vsmInput")[0].value, newSpellModal8.getElementsByClassName("castingTimeInput")[0].value, newSpellModal8.getElementsByClassName("rangeInput")[0].value, newSpellModal8.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal8.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal8.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal8.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal8.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal8.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal8.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal8.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal8.style.display = "none";
-    }
-    if (event.target == newSpellModal9) {
-        if (newSpellModal9.getElementsByClassName("nameInput")[0].value != ""){
-            spellButton("9", newSpellModal9.getElementsByClassName("nameInput")[0].value, newSpellModal9.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal9.getElementsByClassName("spellDamageInput")[0].value, newSpellModal9.getElementsByClassName("vsmInput")[0].value, newSpellModal9.getElementsByClassName("castingTimeInput")[0].value, newSpellModal9.getElementsByClassName("rangeInput")[0].value, newSpellModal9.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newSpellModal9.getElementsByClassName("nameInput")[0].value = "";
-        newSpellModal9.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newSpellModal9.getElementsByClassName("spellDamageInput")[0].value = "";
-        newSpellModal9.getElementsByClassName("vsmInput")[0].value = "";
-        newSpellModal9.getElementsByClassName("castingTimeInput")[0].value = "";
-        newSpellModal9.getElementsByClassName("rangeInput")[0].value = "";
-        newSpellModal9.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newSpellModal9.style.display = "none";
+        newSpellModal.getElementsByClassName("nameInput")[0].value = "";
+        newSpellModal.getElementsByClassName("spellAttackBonusInput")[0].value = "";
+        newSpellModal.getElementsByClassName("spellDamageInput")[0].value = "";
+        newSpellModal.getElementsByClassName("vsmInput")[0].value = "";
+        newSpellModal.getElementsByClassName("castingTimeInput")[0].value = "";
+        newSpellModal.getElementsByClassName("rangeInput")[0].value = "";
+        newSpellModal.getElementsByClassName("additionalInfoInput")[0].value = "";
+        newSpellModal.style.display = "none";
     }
     if (event.target == statsModal){
         var strength = statsModal.getElementsByClassName("strengthInput")[0].value;
@@ -577,6 +469,9 @@ window.onclick = function(event) {
     if (event.target == selectedAbilityModal) {
         selectedAbilityModal.style.display = "none";
     }
+    if (event.target == selectedSpellModal) {
+        selectedSpellModal.style.display = "none";
+    }
 
 }
 
@@ -589,32 +484,15 @@ function openNewAbilitiesModal() {
 function openNewCantripModal() {
     document.getElementById("newCantripModal").style.display = "block";
 }
-function openNewSpellModal1() {
-    document.getElementById("newSpellModal1").style.display = "block";
-}
-function openNewSpellModal2() {
-    document.getElementById("newSpellModal2").style.display = "block";
-}
-function openNewSpellModal3() {
-    document.getElementById("newSpellModal3").style.display = "block";
-}
-function openNewSpellModal4() {
-    document.getElementById("newSpellModal4").style.display = "block";
-}
-function openNewSpellModal5() {
-    document.getElementById("newSpellModal5").style.display = "block";
-}
-function openNewSpellModal6() {
-    document.getElementById("newSpellModal6").style.display = "block";
-}
-function openNewSpellModal7() {
-    document.getElementById("newSpellModal7").style.display = "block";
-}
-function openNewSpellModal8() {
-    document.getElementById("newSpellModal8").style.display = "block";
-}
-function openNewSpellModal9() {
-    document.getElementById("newSpellModal9").style.display = "block";
+function openNewSpellModal(lvl){
+    var spellModal = document.getElementById("newSpellModal");
+    document.getElementsByClassName("levelOfNewSpell")[0].innerHTML = lvl;
+    if (lvl == 0){
+        spellModal.getElementsByClassName("modalHeading")[0].innerHTML = "New Cantrip";
+    } else {
+        spellModal.getElementsByClassName("modalHeading")[0].innerHTML = "New L" + lvl + " Spell";
+    }
+    spellModal.style.display = "block";
 }
 function openStatsModal() {
     document.getElementById("statsModal").style.display = "block";
@@ -676,6 +554,42 @@ function openSelectedAbilityModal(obj){
     selectedAbility.style.display = "block";
 }
 
+function openSelectedSpellModal(obj) {
+    selectedSpellModal = document.getElementById("selectedSpellModal");
+
+    selectedSpellModal.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("spellName")[0].innerHTML;
+
+    var modifier = parseInt(obj.getElementsByClassName("spellAttackMod")[0].innerHTML);
+    modifier += findSpellAttackModifier();
+    if (modifier > 0){
+        modifier = "+" + modifier;
+    } else if (modifier < 0){
+        modifier = "-" + modifier;
+    } else {
+        modifier = "";
+    }
+    selectedSpellModal.getElementsByClassName("attackRollSolid")[0].innerHTML = "d20" + modifier;
+    selectedSpellModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("spellDamage")[0].innerHTML;
+    selectedSpellModal.getElementsByClassName("rangeSolid")[0].innerHTML = obj.getElementsByClassName("spellRange")[0].innerHTML;
+    selectedSpellModal.getElementsByClassName("castingTimeSolid")[0].innerHTML = obj.getElementsByClassName("castingTime")[0].innerHTML;
+    var vsmTime = obj.getElementsByClassName("vsm")[0].innerHTML;
+    if (vsmTime == "v"){
+        vsmTime = "Verbal";
+    } else if (vsmTime == "s"){
+        vsmTime = "Somatic";
+    } else if (vsmTime == "m"){
+        vsmTime = "Material";
+    } else {
+        vsmTime = vsmTime.toUpperCase();
+    }
+    selectedSpellModal.getElementsByClassName("vsmSolid")[0].innerHTML = vsmTime;
+    selectedSpellModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("spellInfo")[0].innerHTML;
+    selectedSpellModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("spellInfo")[0].innerHTML = selectedSpellModal.getElementsByClassName("textAreaModal")[0].value;};
+    selectedSpellModal.getElementsByClassName("deleteSelectedSpellButton")[0].onclick = function() {obj.remove(); selectedSpellModal.style.display = "none";};
+
+    document.getElementById("selectedSpellModal").style.display = "block";
+}
+
 function levelToProficiency(){
     var level = document.getElementsByClassName("classDivLevel")[0].innerHTML;
     var proficiency = 2;
@@ -721,5 +635,5 @@ function findSpellAttackModifier(){
     } else if (trueClass == "artificer"){
         value = document.getElementsByClassName("intMod")[0].innerHTML;
     }
-    return parseInt(value);
+    return parseInt(value) + levelToProficiency();
 }
