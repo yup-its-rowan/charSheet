@@ -126,6 +126,7 @@ function abilitiesButton(abilityName1, abilityInfo1) {
     abilityInfo.innerHTML =  abilityInfo1;
     ability1.appendChild(abilityName);
     ability1.appendChild(abilityInfo);
+    ability1.onclick = function() {openSelectedAbilityModal(ability1)};
     elem.appendChild(ability1);
 }
 
@@ -226,13 +227,13 @@ function adjustVisibleMods(strength, dexterity, constitution, intelligence, wisd
 
 function adjustVisibleAC(ac){
     var elem = document.getElementsByClassName("ACHPDiv")[0];
-    var acElem = elem.getElementsByClassName("ACDiv")[0];
+    var acElem = elem.getElementsByClassName("actualAC")[0];
     acElem.innerHTML = ac;
 }
 
 function adjustVisibleHP(chp, mhp){
     var elem = document.getElementsByClassName("ACHPDiv")[0];
-    var hpElem = elem.getElementsByClassName("HPDiv")[0];
+    var hpElem = elem.getElementsByClassName("actualHP")[0];
 
     hpElem.innerHTML = chp + "/" + mhp;
 }
@@ -315,6 +316,7 @@ window.onclick = function(event) {
     HPModal = document.getElementById("HPModal");
     classModal = document.getElementById("classModal");
     selectedAttackModal = document.getElementById("selectedAttackModal");
+    selectedAbilityModal = document.getElementById("selectedAbilityModal");
 
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
@@ -572,6 +574,9 @@ window.onclick = function(event) {
     if (event.target == selectedAttackModal) {
         selectedAttackModal.style.display = "none";
     }
+    if (event.target == selectedAbilityModal) {
+        selectedAbilityModal.style.display = "none";
+    }
 
 }
 
@@ -661,6 +666,14 @@ function openSelectedAttackModal(obj){
     selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;};
     selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none";};
     document.getElementById("selectedAttackModal").style.display = "block";
+}
+function openSelectedAbilityModal(obj){
+    selectedAbility = document.getElementById("selectedAbilityModal");
+    selectedAbility.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("abilityName")[0].innerHTML;
+    selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value = obj.getElementsByClassName("abilityInfo")[0].innerHTML;
+    selectedAbility.getElementsByClassName("textAreaModalAbility")[0].onblur = function() {obj.getElementsByClassName("abilityInfo")[0].innerHTML = selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value;};
+    selectedAbility.getElementsByClassName("deleteSelectedAbilityButton")[0].onclick = function() {obj.remove(); selectedAbility.style.display = "none";};
+    selectedAbility.style.display = "block";
 }
 
 function levelToProficiency(){

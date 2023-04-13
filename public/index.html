@@ -46,10 +46,12 @@
             </div>
             <div class="ACHPDiv">
                 <div class="ACDiv centerer borderer" onclick="openACModal()">
-                    10
+                    <p class="ACDivText" style="font-weight: bold;">AC</p>
+                    <p class="actualAC">10</p>
                 </div> 
                 <div class="HPDiv centerer borderer" onclick="openHPModal()">
-                    30/30
+                    <p class="HPDivText" style="font-weight: bold;">HP</p>
+                    <p class="actualHP">30/30</p>
                 </div>
             </div>
         </div>
@@ -231,7 +233,7 @@
     <div class="abilities borderer">
         <p class="headingText centerer">Abilities </p>
         <div class="abilitiesList">
-            <div class="writtenAbility centerer">
+            <div class="writtenAbility centerer" onclick="openSelectedAbilityModal(this)">
                 <p class="abilityName">Second Wind</p>
                 <p class="abilityInfo">You can use a bonus action to regain hit points equal to 1d10 + your fighter level.</p>
             </div>
@@ -686,6 +688,19 @@
             </div>
             <div class = "centerer" style="margin-top: 7vh;">
                 <button class="deleteSelectedAttackButton">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="selectedAbilityModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Second Wind</p>
+            <p class="modalText centerer additionalInfoHeading" style="margin-top: 8vh;">Additional Info</p>
+            <div class="centerer">
+                <textarea class="additionalInfoInput textAreaModalAbility" placeholder="Additional Info"></textarea>
+            </div>
+            <div class = "centerer" style="margin-top: 7vh;">
+                <button class="deleteSelectedAbilityButton">Delete</button>
             </div>
         </div>
     </div>
