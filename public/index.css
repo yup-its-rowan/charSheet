@@ -150,7 +150,7 @@ body {
     margin: 0;
 }
 
-.damageType, .additionalInfo, .damageRoll, .attackRollMod {
+.damageType, .additionalInfo, .damageRoll, .attackRollMod, .relevantStat, .proficiencyCheck{
     display:none;
 }
 
@@ -305,6 +305,22 @@ body {
     height: 4vh;
     border: 2px solid var(--borderColor);
     font-size: 0.5em;
+    text-align: center;
+}
+
+.modifierSelect {
+    height: 4vh;
+    width: 100%;
+    border: 2px solid var(--borderColor);
+    font-size: 0.4em;
+    text-align: center;
+}
+
+.proficiencyInput {
+    height: 4vh;
+    width: 100%;
+    border: 2px solid var(--borderColor);
+    font-size: 0.4em;
     text-align: center;
 }
 

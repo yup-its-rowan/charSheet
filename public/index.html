@@ -77,7 +77,9 @@
         <div class="writtenAttackList">
             <div class="writtenAttack centerer" onclick="openSelectedAttackModal(this)">
                 <p class="weapon">Great3sword</p>
-                <p class="attackRollMod">+4</p>
+                <p class="attackRollMod">4</p>
+                <p class="relevantStat">str</p>
+                <p class="proficiencyCheck">P</p>
                 <p class="damageRoll">2d6</p>
                 <p class="damageType">Smacking</p>
                 <p class="additionalInfo">Looks Ugly</p>
@@ -85,7 +87,9 @@
             <div class="writtenAttack centerer" onclick="openSelectedAttackModal(this)">
                 <p class="weapon">Greatsword</p>
                 <p class="attackRollMod">+4</p>
-                <p class="damageRoll">2d6</p>
+                <p class="relevantStat">str</p>
+                <p class="proficiencyCheck">P</p>
+                <p class="damageRoll">3d6</p>
                 <p class="damageType">Slashing</p>
                 <p class="additionalInfo">Looks Pretty</p>
             </div>
@@ -256,13 +260,26 @@
             <p class="modalHeading centerer headingText">New Martial Attack</p>
             <div class="modalBody centerer">
                 <p class="modalText">Name</p>
-                <input class="modalInput nameInput" type="text" placeholder="Name">
-                <p class="modalText">Attack Bonus</p>
-                <input class="modalInput attackBonusInput" type="text" placeholder="Attack Bonus" value="+">
+                <input class="modalInput nameInput" type="text" placeholder="Greatsword">
+                <p class="modalText">Modifier</p>
+                <div>
+                    <select class="modifierSelect">  
+                        <option value = "str">Strength</option>  
+                        <option value = "dex">Dexterity</option>  
+                        <option value = "con">Constitution</option>  
+                        <option value = "int">Intelligence</option>  
+                        <option value = "wis">Wisdom</option>
+                        <option value = "cha">Charisma</option>
+                    </select>  
+                </div>
+                <p class="modalText">Proficiency</p>
+                <input class="modalInput proficiencyInput" type="checkbox">
+                <p class="modalText">Extra Attack Bonus</p>
+                <input class="modalInput attackBonusInput" type="number" placeholder="+1">
                 <p class="modalText">Damage</p>            
-                <input class="modalInput damageInput" type="text" placeholder="Damage">
+                <input class="modalInput damageInput" type="text" placeholder="2d6">
                 <p class="modalText">Damage Type</p>
-                <input class="modalInput damageTypeInput" type="text" placeholder="Damage Type">
+                <input class="modalInput damageTypeInput" type="text" placeholder="Slashing">
             </div>
             <p class="modalText centerer additionalInfoHeading">Additional Info</p>
             <div class="centerer">

@@ -53,17 +53,48 @@ function updateNotes(){
 function updateBackstory(){
 }
 
-function attackButton(weapon1, attackRollMod1, damageRoll1, damageType1, additionalInfo1) {
+function attackButton(weapon1, modSelect, proficiency, attackRollMod1, damageRoll1, damageType1, additionalInfo1) {
+    if (weapon1 == null){
+        weapon1 = "Weapon";
+    }
+    if (modSelect == null){
+        modSelect = "str";
+    }
+    if (proficiency == null){
+        proficiency = false;
+    }
+    if (attackRollMod1 == null){
+        attackRollMod1 = "0";
+    }
+    if (damageRoll1 == null){
+        damageRoll1 = "1";
+    }
+    if (damageType1 == null){
+        damageType1 = "Bludgeoning";
+    }
+    if (additionalInfo1 == null){
+        additionalInfo1 = "None";
+    }
     var elem = document.getElementsByClassName("writtenAttackList")[0];
     var writtenAttack1 = document.createElement("div");
     writtenAttack1.className = "writtenAttack centerer";
     var weapon = document.createElement("p");
+    var modSelected = document.createElement("p");
+    var proficiencySe = document.createElement("p");
     var attackRollMod = document.createElement("p");
     var damageRoll = document.createElement("p");
     var damageType = document.createElement("p");
     var additionalInfo = document.createElement("p");
     weapon.className = "weapon";
     weapon.innerHTML = weapon1;
+    modSelected.className = "relevantStat";
+    modSelected.innerHTML = modSelect;
+    proficiencySe.className = "proficiencyCheck";
+    if (proficiency){
+        proficiencySe.innerHTML = "P";
+    } else {
+        proficiencySe.innerHTML = "N";
+    }
     attackRollMod.className = "attackRollMod";
     attackRollMod.innerHTML = attackRollMod1;
     damageRoll.className = "damageRoll";
@@ -73,6 +104,8 @@ function attackButton(weapon1, attackRollMod1, damageRoll1, damageType1, additio
     additionalInfo.className = "additionalInfo";
     additionalInfo.innerHTML =  additionalInfo1;
     writtenAttack1.appendChild(weapon);
+    writtenAttack1.appendChild(modSelected);
+    writtenAttack1.appendChild(proficiencySe);
     writtenAttack1.appendChild(attackRollMod);
     writtenAttack1.appendChild(damageRoll);
     writtenAttack1.appendChild(damageType);
@@ -285,9 +318,11 @@ window.onclick = function(event) {
 
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
-            attackButton(newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("damageInput")[0].value, newAttackModal.getElementsByClassName("damageTypeInput")[0].value, newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
+            attackButton(newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("modifierSelect")[0].value, newAttackModal.getElementsByClassName("proficiencyInput")[0].checked, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("damageInput")[0].value, newAttackModal.getElementsByClassName("damageTypeInput")[0].value, newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
         }
         newAttackModal.getElementsByClassName("nameInput")[0].value = "";
+        newAttackModal.getElementsByClassName("modifierSelect")[0].value = "str";
+        newAttackModal.getElementsByClassName("proficiencyInput")[0].checked = false;
         newAttackModal.getElementsByClassName("attackBonusInput")[0].value = "";
         newAttackModal.getElementsByClassName("damageInput")[0].value = "";
         newAttackModal.getElementsByClassName("damageTypeInput")[0].value = "";
@@ -597,10 +632,81 @@ function openClassModal(){
 function openSelectedAttackModal(obj){
     selectedAttackModal = document.getElementById("selectedAttackModal");
     selectedAttackModal.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("weapon")[0].innerHTML;
-    selectedAttackModal.getElementsByClassName("attackRollSolid")[0].innerHTML = "d20" + obj.getElementsByClassName("attackRollMod")[0].innerHTML;
-    selectedAttackModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML;
+    var modifier = parseInt(obj.getElementsByClassName("attackRollMod")[0].innerHTML);
+    if (obj.getElementsByClassName("proficiencyCheck")[0].innerHTML == "P"){
+        modifier+=levelToProficiency();
+    }
+    modifier+= findModifier(obj);
+
+    if (modifier > 0){
+        modifier = "+" + modifier;
+    } else if (modifier < 0){
+        modifier = "-" + modifier;
+    } else {
+        modifier = "";
+    }
+    selectedAttackModal.getElementsByClassName("attackRollSolid")[0].innerHTML = "d20" + modifier;
+
+    var damageMod = parseInt(findModifier(obj));
+    if (damageMod > 0){
+        damageMod = "+" + damageMod;
+    } else if (damageMod < 0){
+        damageMod = "-" + damageMod;
+    } else {
+        damageMod = "";
+    }
+    selectedAttackModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML + damageMod;
     selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML = obj.getElementsByClassName("damageType")[0].innerHTML;
-    selectedAttackModal.getElementsByClassName("textAreaModal")[0].innerHTML = obj.getElementsByClassName("additionalInfo")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("additionalInfo")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;};
     selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none";};
     document.getElementById("selectedAttackModal").style.display = "block";
+}
+
+function levelToProficiency(){
+    var level = document.getElementsByClassName("classDivLevel")[0].innerHTML;
+    var proficiency = 2;
+    if (level >= 5){
+        proficiency = 3;
+    }
+    if (level >= 9){
+        proficiency = 4;
+    }
+    if (level >= 13){
+        proficiency = 5;
+    }
+    if (level >= 17){
+        proficiency = 6;
+    }
+    return proficiency;
+}
+function findModifier(obj){
+    var stat = obj.getElementsByClassName("relevantStat")[0].innerHTML;
+    var correctMod = document.getElementsByClassName(stat + "Mod")[0].innerHTML;
+    correctMod = correctMod.substring(1);
+    return parseInt(correctMod);
+}
+function findSpellAttackModifier(){
+    var trueClass = document.getElementsByClassName("classDivClass")[0].innerHTML.toLocaleLowerCase();
+    var value = 0;
+    if (trueClass == "wizard"){
+        value = document.getElementsByClassName("intMod")[0].innerHTML;
+    } else if (trueClass == "cleric"){
+        value = document.getElementsByClassName("wisMod")[0].innerHTML;
+    } else if (trueClass == "druid"){
+        value = document.getElementsByClassName("wisMod")[0].innerHTML;
+    } else if (trueClass == "sorcerer"){
+        value = document.getElementsByClassName("chaMod")[0].innerHTML;
+    } else if (trueClass == "bard"){
+        value = document.getElementsByClassName("chaMod")[0].innerHTML;
+    } else if (trueClass == "paladin"){
+        value = document.getElementsByClassName("chaMod")[0].innerHTML;
+    } else if (trueClass == "warlock"){
+        value = document.getElementsByClassName("chaMod")[0].innerHTML;
+    } else if (trueClass == "ranger"){
+        value = document.getElementsByClassName("wisMod")[0].innerHTML;
+    } else if (trueClass == "artificer"){
+        value = document.getElementsByClassName("intMod")[0].innerHTML;
+    }
+    return parseInt(value);
 }
