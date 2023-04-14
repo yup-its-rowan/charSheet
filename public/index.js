@@ -21,11 +21,11 @@ examplePlayer1 = {
 }
 
 examplePlayer2 = {
-    name: "Greg",
+    name: "Fonk",
     class: "Bard",
     level: 3,
     race: "Human",
-    backstory: "Dropped off at birth near a dumpster",
+    backstory: "Dropped off at birth visavi a dumpster",
     notes: "This is a note",
     inventory: "One bag of rice\nOne bag of sand",
     coin: [1,1,1,1],
@@ -38,11 +38,13 @@ examplePlayer2 = {
     spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
     spellSlots: [2,0,0,0,0,0,0,0,0,0],
 }
-
+function earlyModal(){
+    document.getElementById("earlyPopupModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
+}
 window.addEventListener('load', function () {
     if (playerName == null){
-        document.getElementById("earlyPopupModal").style.display = "block";
-        document.querySelector("body").style.overflow = "hidden";
+        earlyModal();
     }
 
     LoadPlayerData(examplePlayer2);
@@ -50,8 +52,18 @@ window.addEventListener('load', function () {
 
 function removeBlockModal(){
     playerName = document.getElementsByClassName("charSelect")[0].value;
+    displayRemotePlayer(playerName);
     document.getElementById("earlyPopupModal").style.display = "none";
     document.querySelector("body").style.overflow = "auto";
+}
+
+function displayRemotePlayer(player){
+    fetch("http://localhost:4144/getChar?character="+player, {
+        method: "GET"
+    }).then(response => response.json())
+    .then(data => {
+        LoadPlayerData(data);
+    });
 }
 
 function LoadPlayerData(player){
@@ -70,6 +82,16 @@ function LoadPlayerData(player){
 
 function SendPlayerData(){
     var player = ScrapePlayerData();
+    var posting = {character: player, name: player["name"]};
+    fetch("http://localhost:4144/saveChar", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(posting)
+    }).then(response => response.json()).then(response => {
+        console.log(response);
+    });
 }
 
 function ScrapePlayerData(){
