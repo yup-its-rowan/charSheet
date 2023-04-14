@@ -100,9 +100,21 @@
             <button class="addAttackButton" type="button" onclick="openNewAttackModal()">+</button>
         </div>
     </div>
+    <div class="abilities borderer">
+        <p class="headingText centerer">Abilities </p>
+        <div class="abilitiesList">
+            <div class="writtenAbility centerer" onclick="openSelectedAbilityModal(this)">
+                <p class="abilityName">Second Wind</p>
+                <p class="abilityInfo">You can use a bonus action to regain hit points equal to 1d10 + your fighter level.</p>
+            </div>
+        </div>
+        <div class="addAbility">
+            <button class="addAbilityButton" type="button" onclick="openNewAbilitiesModal()">+</button>
+        </div>
+    </div>
     <div class="spells borderer">
         <p class="headingText centerer ">Spellbook</p>
-            <div class="spellslots centerer" onClick="openSpellSlotsModal()">
+        <div class="spellslots centerer" onClick="openSpellSlotsModal()">
                 L1: <span class="lvl1 lvl">0</span>
                 L2: <span class="lvl2 lvl">0</span>
                 L3: <span class="lvl3 lvl">0</span>
@@ -113,7 +125,8 @@
                 L8: <span class="lvl8 lvl">0</span>
                 L9: <span class="lvl9 lvl">0</span>
                 Ki: <span class="lvlki">0</span>
-            </div>
+        </div>
+        <div class="centerer spellSaveDC">Spell Save DC: 10</div>
         <div class="cantrips">
             <p class="headingText2 centerer">Cantrips</p>
             <div class="writtenSpellList0">
@@ -230,29 +243,24 @@
             </div>
         </div>  
     </div>
-    <div class="abilities borderer">
-        <p class="headingText centerer">Abilities </p>
-        <div class="abilitiesList">
-            <div class="writtenAbility centerer" onclick="openSelectedAbilityModal(this)">
-                <p class="abilityName">Second Wind</p>
-                <p class="abilityInfo">You can use a bonus action to regain hit points equal to 1d10 + your fighter level.</p>
-            </div>
+    <div class="inventory borderer">
+        <p class="headingText centerer">Inventory</p>
+        <div class="centerer">
+            <textarea class="inventoryText" placeholder="Inventory" onblur="remoteInventory()"></textarea>
         </div>
-        <div class="addAbility">
-            <button class="addAbilityButton" type="button" onclick="openNewAbilitiesModal()">+</button>
-        </div>
+        
     </div>
     <div class="notes borderer">
         <p class="headingText centerer">Notes</p>
         <div class="centerer">
-            <textarea class="notesText" placeholder="Notes" onblur="updateNotes()"></textarea>
+            <textarea class="notesText" placeholder="Notes" onblur="remoteNotes()"></textarea>
         </div>
         
     </div>
     <div class="backstory borderer">
         <p class="headingText centerer">Backstory</p>
         <div class="centerer">
-            <textarea class="backstoryText" placeholder="Backstory" onblur="updateBackstory()"></textarea>
+            <textarea class="backstoryText" placeholder="Backstory" onblur="remoteBackstory()"></textarea>
         </div>
     </div>
 
@@ -520,15 +528,39 @@
         </div>
     </div>
 
+    <div class="modal" id="earlyPopupModal">
+        <div class="modalContent borderer">
+            <p class="modalHeading centerer headingText">Character Select</p>
+            <div class="modalBody centerer" style="margin-top: 10vh;">
+                <p class="modalText">Choose your character</p>
+                <select class="charSelect">  
+                    <option class="charSelectOption" value = "Tunst">Tunst</option>  
+                    <option class="charSelectOption" value = "Delty">Delty</option>  
+                    <option class="charSelectOption" value = "Namfoodle">Namfoodle</option>  
+                    <option class="charSelectOption" value = "Rumplestiltskin">Rumplestiltskin</option>  
+                    <option class="charSelectOption" value = "Bingus">Bingus</option>
+                    <option class="charSelectOption" value = "Mort">Mort</option>
+                </select>
+            </div>
+            <div class = "centerer" style="margin-top: 7vh;">
+                <button class="selectCharacterButton" onclick="removeBlockModal()">Let's Go</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 <div class="footer">
-    <div class="footerContent" onclick="goFirst()">t </div>
+    <div class="footerContent centerer" onclick="goFirst()">
+        <img class="footerImages" src="main.png" alt="go home">
+    </div>
     <script>
         function goFirst() {
             document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
     </script>
-    <div class="footerContent" onclick="goSecond()"> s</div>
+    <div class="footerContent centerer" onclick="goSecond()">
+        <img class="footerImages" src="book.png" alt="go home">
+    </div>
     <script>
         function goSecond() {
             var elem = document.getElementsByClassName("spells")[0];
@@ -536,10 +568,12 @@
         }
     </script>
     
-    <div class="footerContent" onclick="goThird()"> a</div>
+    <div class="footerContent centerer" onclick="goThird()">
+        <img class="footerImages" src="char.png" alt="go home">
+    </div>
     <script>
         function goThird() {
-            var elem = document.getElementsByClassName("abilities")[0];
+            var elem = document.getElementsByClassName("inventory")[0];
             elem.scrollIntoView();
         }
     </script>

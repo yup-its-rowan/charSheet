@@ -1,56 +1,208 @@
 
 var playerName = null;
 
-function attackModal(){
-    
+examplePlayer1 = {
+    name: "Rohan",
+    class: "Bard",
+    level: 3,
+    race: "Human",
+    backstory: "Dropped off at birth near a dumpster",
+    notes: "This is a note",
+    inventory: "One bag of rice\nOne bag of sand",
+    coin: [1,1,1,1],
+    stats: [20,20,15,13,20,5],
+    ac: 15,
+    chp: 10,
+    mhp: 40,
+    abilities: [["Third Wind", "Your Mom"], ["Fourth Wind", "Your Dad"]],
+    attacks: [["Sword", "1", "str", "P", "4d6", "Bludgeoning", "Long Boy"]],
+    spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
+    spellSlots: [2,0,0,0,0,0,0,0,0,0],
 }
 
-
-
-function LoadPlayerData(){
-    updateACHP();
-    updateStats();
-    updateClassAndName();
-    updateCoin();
-    updateNotes();
-    updateBackstory();
-    updateSpells();
-    updateAbilities();
-    updateAttacks();
+examplePlayer2 = {
+    name: "Greg",
+    class: "Bard",
+    level: 3,
+    race: "Human",
+    backstory: "Dropped off at birth near a dumpster",
+    notes: "This is a note",
+    inventory: "One bag of rice\nOne bag of sand",
+    coin: [1,1,1,1],
+    stats: [20,20,15,13,20,5],
+    ac: 15,
+    chp: 10,
+    mhp: 40,
+    abilities: [["Third Wind", "Your Mom"], ["Fourth Wind", "Your Dad"]],
+    attacks: [["Sword", "1", "str", "P", "4d6", "Bludgeoning", "Long Boy"]],
+    spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
+    spellSlots: [2,0,0,0,0,0,0,0,0,0],
 }
 
-function updateSpells(){
+window.addEventListener('load', function () {
+    if (playerName == null){
+        document.getElementById("earlyPopupModal").style.display = "block";
+        document.querySelector("body").style.overflow = "hidden";
+    }
 
+    LoadPlayerData(examplePlayer2);
+});
+
+function removeBlockModal(){
+    playerName = document.getElementsByClassName("charSelect")[0].value;
+    document.getElementById("earlyPopupModal").style.display = "none";
+    document.querySelector("body").style.overflow = "auto";
 }
 
-function updateAbilities(){
-
+function LoadPlayerData(player){
+    updateACHP(player["ac"], player["chp"], player["mhp"]);
+    updateStats(player["stats"]);
+    updateClassAndName(player["name"], player["class"], player["race"], player["level"]);
+    updateCoin(player["coin"]);
+    updateNotes(player["notes"]);
+    updateInventory(player["inventory"]);
+    updateBackstory(player["backstory"]);
+    updateSpells(player["spells"]);
+    updateAbilities(player["abilities"]);
+    updateAttacks(player["attacks"]);
+    updateSpellslots(player["spellSlots"]);
 }
 
-function updateAttacks(){
-
+function SendPlayerData(){
+    var player = ScrapePlayerData();
 }
 
-function updateACHP(){
-
+function ScrapePlayerData(){
+    player = {};
+    player["name"] = document.getElementsByClassName("nameDiv")[0].innerHTML;
+    player["class"] = document.getElementsByClassName("classInput")[0].value;
+    player["level"] = parseInt(document.getElementsByClassName("levelInput")[0].value);
+    player["race"] = document.getElementsByClassName("raceInput")[0].value;
+    player["backstory"] = document.getElementsByClassName("backstoryText")[0].value;
+    player["notes"] = document.getElementsByClassName("notesText")[0].value;
+    player["inventory"] = document.getElementsByClassName("inventoryText")[0].value;
+    player["coin"] = [parseInt(document.getElementsByClassName("copperInput")[0].value), parseInt(document.getElementsByClassName("silverInput")[0].value), parseInt(document.getElementsByClassName("goldInput")[0].value), parseInt(document.getElementsByClassName("platinumInput")[0].value)];
+    player["stats"] = [parseInt(document.getElementsByClassName("strengthInput")[0].value), parseInt(document.getElementsByClassName("dexterityInput")[0].value), parseInt(document.getElementsByClassName("constitutionInput")[0].value), parseInt(document.getElementsByClassName("intelligenceInput")[0].value), parseInt(document.getElementsByClassName("wisdomInput")[0].value), parseInt(document.getElementsByClassName("charismaInput")[0].value)];
+    player["ac"] = parseInt(document.getElementsByClassName("armorInput")[0].value);
+    player["chp"] = parseInt(document.getElementsByClassName("chpInput")[0].value);
+    player["mhp"] = parseInt(document.getElementsByClassName("mhpInput")[0].value);
+    writtenAbilities = document.getElementsByClassName("writtenAbility");
+    player["abilities"] = [];
+    for (var i = 0; i < writtenAbilities.length; i++){
+        player["abilities"].push([writtenAbilities[i].getElementsByClassName("abilityName")[0].value, writtenAbilities[i].getElementsByClassName("abilityInfo")[0].value]);
+    }
+    writtenAttacks = document.getElementsByClassName("writtenAttack");
+    player["attacks"] = [];
+    Array.from(writtenAttacks).forEach(element => {
+        player["attacks"].push([element.getElementsByClassName("weapon")[0].innerHTML, element.getElementsByClassName("attackRollMod")[0].innerHTML, element.getElementsByClassName("relevantStat")[0].innerHTML, element.getElementsByClassName("proficiencyCheck"), element.getElementsByClassName("damageRoll")[0].innerHTML, element.getElementsByClassName("damageType")[0].innerHTML, element.getElementsByClassName("additionalInfo")[0].innerHTML]);
+    });
+    player["spells"] = [];
+    for (var i = 0; i < 10; i++){
+        writtenSpells = document.getElementsByClassName("writtenSpellList"+i)[0];
+        writtenSpellsAtLevel = writtenSpells.getElementsByClassName("writtenSpell");
+        player["spells"][i] = [];
+        Array.from(writtenSpellsAtLevel).forEach(element => {
+            player["spells"][i].push([element.getElementsByClassName("spellName")[0].innerHTML, element.getElementsByClassName("spellAttackMod")[0].innerHTML, element.getElementsByClassName("spellDamage")[0].innerHTML, element.getElementsByClassName("vsm")[0].innerHTML, element.getElementsByClassName("castingTime")[0].innerHTML, element.getElementsByClassName("spellRange")[0].innerHTML, element.getElementsByClassName("spellInfo")[0].innerHTML]);
+        });
+    }
+    player["spellSlots"] = [parseInt(document.getElementsByClassName("spellSlot1Input")[0].value), parseInt(document.getElementsByClassName("spellSlot2Input")[0].value), parseInt(document.getElementsByClassName("spellSlot3Input")[0].value), parseInt(document.getElementsByClassName("spellSlot4Input")[0].value), parseInt(document.getElementsByClassName("spellSlot5Input")[0].value), parseInt(document.getElementsByClassName("spellSlot6Input")[0].value), parseInt(document.getElementsByClassName("spellSlot7Input")[0].value), parseInt(document.getElementsByClassName("spellSlot8Input")[0].value), parseInt(document.getElementsByClassName("spellSlot9Input")[0].value), parseInt(document.getElementsByClassName("spellSlotKiInput")[0].value)];
+    return player;
 }
 
-function updateStats(){
-
+function updateSpells(spells){
+    spellLists = [document.getElementsByClassName("writtenSpellList0")[0], document.getElementsByClassName("writtenSpellList1")[0], document.getElementsByClassName("writtenSpellList2")[0], document.getElementsByClassName("writtenSpellList3")[0], document.getElementsByClassName("writtenSpellList4")[0], document.getElementsByClassName("writtenSpellList5")[0], document.getElementsByClassName("writtenSpellList6")[0], document.getElementsByClassName("writtenSpellList7")[0], document.getElementsByClassName("writtenSpellList8")[0], document.getElementsByClassName("writtenSpellList9")[0]];
+    spellLists.forEach(element => {
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+    });
+    for (let spellLevel = 0; spellLevel < spells.length; spellLevel++) {
+        spells[spellLevel].forEach(spell => {
+            spellButton(spellLevel, spell[0], spell[1], spell[2], spell[3].toLocaleLowerCase(), spell[4], spell[5], spell[6]);
+        });
+    }
 }
 
-function updateClassAndName(){
-
+function updateAbilities(abilities){
+    abilityList = document.getElementsByClassName("abilitiesList")[0];
+    while (abilityList.firstChild) {
+        abilityList.removeChild(abilityList.firstChild);
+    }
+    abilities.forEach(element => {
+        abilitiesButton(element[0], element[1]);
+    });
 }
 
-function updateCoin(){
-
+function updateAttacks(attacks){
+    attackList = document.getElementsByClassName("writtenAttackList")[0];
+    while (attackList.firstChild) {
+        attackList.removeChild(attackList.firstChild);
+    }
+    attacks.forEach(element => {
+        attackButton(element[0], element[2], element[3], element[1], element[4], element[5], element[6]);
+    });
 }
 
-function updateNotes(){
+function updateSpellslots(spellSlots){
+    document.getElementsByClassName("spellSlot1Input")[0].value = spellSlots[0];
+    document.getElementsByClassName("spellSlot2Input")[0].value = spellSlots[1];
+    document.getElementsByClassName("spellSlot3Input")[0].value = spellSlots[2];
+    document.getElementsByClassName("spellSlot4Input")[0].value = spellSlots[3];
+    document.getElementsByClassName("spellSlot5Input")[0].value = spellSlots[4];
+    document.getElementsByClassName("spellSlot6Input")[0].value = spellSlots[5];
+    document.getElementsByClassName("spellSlot7Input")[0].value = spellSlots[6];
+    document.getElementsByClassName("spellSlot8Input")[0].value = spellSlots[7];
+    document.getElementsByClassName("spellSlot9Input")[0].value = spellSlots[8];
+    document.getElementsByClassName("spellSlotKiInput")[0].value = spellSlots[9];
+    adjustSpellslots(spellSlots[0], spellSlots[1], spellSlots[2], spellSlots[3], spellSlots[4], spellSlots[5], spellSlots[6], spellSlots[7], spellSlots[8], spellSlots[9]);
 }
 
-function updateBackstory(){
+function updateACHP(ac, chp, mhp){
+    document.getElementsByClassName("armorInput")[0].value = ac;
+    document.getElementsByClassName("chpInput")[0].value = chp;
+    document.getElementsByClassName("mhpInput")[0].value = mhp;
+    adjustVisibleAC(ac);
+    adjustVisibleHP(chp, mhp);
+}
+
+function updateStats(stats){
+    statsModal = document.getElementById("statsModal");
+    statsModal.getElementsByClassName("strengthInput")[0].value = stats[0];
+    statsModal.getElementsByClassName("dexterityInput")[0].value = stats[1];
+    statsModal.getElementsByClassName("constitutionInput")[0].value = stats[2];
+    statsModal.getElementsByClassName("intelligenceInput")[0].value = stats[3];
+    statsModal.getElementsByClassName("wisdomInput")[0].value = stats[4];
+    statsModal.getElementsByClassName("charismaInput")[0].value = stats[5];;   
+    adjustVisibleMods(stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
+}
+
+function updateClassAndName(name, clas, race, level){
+    document.getElementsByClassName("nameDiv")[0].innerHTML = name;
+    classCheck = document.getElementById("classModal");
+    classCheck.getElementsByClassName("classInput")[0].value = clas;
+    classCheck.getElementsByClassName("raceInput")[0].value = race;
+    classCheck.getElementsByClassName("levelInput")[0].value = level;
+    adjustVisibleClass(race, clas, level);
+}
+
+function updateCoin(coin){
+    document.getElementsByClassName("copperInput")[0].value = coin[0];
+    document.getElementsByClassName("silverInput")[0].value = coin[1];
+    document.getElementsByClassName("goldInput")[0].value = coin[2];
+    document.getElementsByClassName("platinumInput")[0].value = coin[3];
+    adjustVisibleCash(coin[0], coin[1], coin[2], coin[3]);
+}
+
+function updateNotes(notes){
+    document.getElementsByClassName("notesText")[0].value = notes;
+}
+
+function updateInventory(inventory){
+    document.getElementsByClassName("inventoryText")[0].value = inventory;
+}
+
+function updateBackstory(backstory){
+    document.getElementsByClassName("backstoryText")[0].value = backstory;
 }
 
 function attackButton(weapon1, modSelect, proficiency, attackRollMod1, damageRoll1, damageType1, additionalInfo1) {
@@ -224,6 +376,8 @@ function adjustVisibleMods(strength, dexterity, constitution, intelligence, wisd
     intMod.innerHTML = statToMod(intelligence);
     wisMod.innerHTML = statToMod(wisdom);
     chaMod.innerHTML = statToMod(charisma);
+    
+    document.getElementsByClassName("spellSaveDC")[0].innerHTML = "Spell Save DC: " + findSpellSaveDC();
 }
 
 function adjustVisibleAC(ac){
@@ -294,13 +448,14 @@ function adjustVisibleClass(race, clas, level){
     elem.getElementsByClassName("classDivRace")[0].innerHTML = race;
     elem.getElementsByClassName("classDivClass")[0].innerHTML = clas;
     elem.getElementsByClassName("classDivLevel")[0].innerHTML = level;
+    
+    document.getElementsByClassName("spellSaveDC")[0].innerHTML = "Spell Save DC: " + findSpellSaveDC();
 }
 
 //make sure to keep updating this below
 window.onclick = function(event) {
     newAttackModal = document.getElementById("newAttackModal");
     newAbilityModal = document.getElementById("newAbilitiesModal");
-    newCantripModal = document.getElementById("newSpellModalCantrip");
     newSpellModal = document.getElementById("newSpellModal");
     statsModal = document.getElementById("statsModal");
     cashModal = document.getElementById("cashModal");
@@ -324,6 +479,8 @@ window.onclick = function(event) {
         newAttackModal.getElementsByClassName("damageTypeInput")[0].value = "";
         newAttackModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newAttackModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == newAbilityModal) {
         if (newAbilityModal.getElementsByClassName("nameInput")[0].value != ""){
@@ -332,19 +489,8 @@ window.onclick = function(event) {
         newAbilityModal.getElementsByClassName("nameInput")[0].value = "";
         newAbilityModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newAbilityModal.style.display = "none";
-    }
-    if (event.target == newCantripModal) {
-        if (newCantripModal.getElementsByClassName("nameInput")[0].value != ""){   
-            cantripButton(newCantripModal.getElementsByClassName("nameInput")[0].value, newCantripModal.getElementsByClassName("spellAttackBonusInput")[0].value, newCantripModal.getElementsByClassName("spellDamageInput")[0].value, newCantripModal.getElementsByClassName("vsmInput")[0].value, newCantripModal.getElementsByClassName("castingTimeInput")[0].value, newCantripModal.getElementsByClassName("rangeInput")[0].value, newCantripModal.getElementsByClassName("additionalInfoInput")[0].value);
-        }
-        newCantripModal.getElementsByClassName("nameInput")[0].value = "";
-        newCantripModal.getElementsByClassName("spellAttackBonusInput")[0].value = "";
-        newCantripModal.getElementsByClassName("spellDamageInput")[0].value = "";
-        newCantripModal.getElementsByClassName("vsmInput")[0].value = "";
-        newCantripModal.getElementsByClassName("castingTimeInput")[0].value = "";
-        newCantripModal.getElementsByClassName("rangeInput")[0].value = "";
-        newCantripModal.getElementsByClassName("additionalInfoInput")[0].value = "";
-        newCantripModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == newSpellModal) {
         var level = document.getElementsByClassName("levelOfNewSpell")[0].innerHTML;
@@ -360,6 +506,8 @@ window.onclick = function(event) {
         newSpellModal.getElementsByClassName("rangeInput")[0].value = "";
         newSpellModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newSpellModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == statsModal){
         var strength = statsModal.getElementsByClassName("strengthInput")[0].value;
@@ -389,6 +537,8 @@ window.onclick = function(event) {
         }
         adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma);
         statsModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == cashModal) {
         var cp = cashModal.getElementsByClassName("copperInput")[0].value;
@@ -410,6 +560,8 @@ window.onclick = function(event) {
         }
         adjustVisibleCash(cp, sp, gp, pp);
         cashModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == spellSlotsModal) {
         var l1 = spellSlotsModal.getElementsByClassName("spellSlot1Input")[0].value;
@@ -425,6 +577,8 @@ window.onclick = function(event) {
 
         adjustSpellslots(l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi);        
         spellSlotsModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == ACModal) {
         var ac = ACModal.getElementsByClassName("armorInput")[0].value;   
@@ -433,6 +587,8 @@ window.onclick = function(event) {
         }  
         adjustVisibleAC(ac);
         ACModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == HPModal) {
         var chp = HPModal.getElementsByClassName("chpInput")[0].value;   
@@ -445,6 +601,8 @@ window.onclick = function(event) {
         }
         adjustVisibleHP(chp, mhp);
         HPModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == classModal) {
         var classInput = classModal.getElementsByClassName("classInput")[0].value;   
@@ -462,27 +620,39 @@ window.onclick = function(event) {
         }
         adjustVisibleClass(raceInput, classInput, levelInput);
         classModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == selectedAttackModal) {
         selectedAttackModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == selectedAbilityModal) {
         selectedAbilityModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
     if (event.target == selectedSpellModal) {
         selectedSpellModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        SendPlayerData();
     }
+    
 
 }
 
 function openNewAttackModal() {
     document.getElementById("newAttackModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openNewAbilitiesModal() {
     document.getElementById("newAbilitiesModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openNewCantripModal() {
     document.getElementById("newCantripModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openNewSpellModal(lvl){
     var spellModal = document.getElementById("newSpellModal");
@@ -493,24 +663,31 @@ function openNewSpellModal(lvl){
         spellModal.getElementsByClassName("modalHeading")[0].innerHTML = "New L" + lvl + " Spell";
     }
     spellModal.style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openStatsModal() {
     document.getElementById("statsModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openCashModal() {
     document.getElementById("cashModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openSpellSlotsModal() {
     document.getElementById("spellSlotsModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openACModal(){
     document.getElementById("ACModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openHPModal(){
     document.getElementById("HPModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openClassModal(){
     document.getElementById("classModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openSelectedAttackModal(obj){
     selectedAttackModal = document.getElementById("selectedAttackModal");
@@ -523,9 +700,7 @@ function openSelectedAttackModal(obj){
 
     if (modifier > 0){
         modifier = "+" + modifier;
-    } else if (modifier < 0){
-        modifier = "-" + modifier;
-    } else {
+    } else if (modifier == 0){
         modifier = "";
     }
     selectedAttackModal.getElementsByClassName("attackRollSolid")[0].innerHTML = "d20" + modifier;
@@ -533,9 +708,7 @@ function openSelectedAttackModal(obj){
     var damageMod = parseInt(findModifier(obj));
     if (damageMod > 0){
         damageMod = "+" + damageMod;
-    } else if (damageMod < 0){
-        damageMod = "-" + damageMod;
-    } else {
+    } else if (damageMod == 0){
         damageMod = "";
     }
     selectedAttackModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML + damageMod;
@@ -544,6 +717,7 @@ function openSelectedAttackModal(obj){
     selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;};
     selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none";};
     document.getElementById("selectedAttackModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 function openSelectedAbilityModal(obj){
     selectedAbility = document.getElementById("selectedAbilityModal");
@@ -552,6 +726,7 @@ function openSelectedAbilityModal(obj){
     selectedAbility.getElementsByClassName("textAreaModalAbility")[0].onblur = function() {obj.getElementsByClassName("abilityInfo")[0].innerHTML = selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value;};
     selectedAbility.getElementsByClassName("deleteSelectedAbilityButton")[0].onclick = function() {obj.remove(); selectedAbility.style.display = "none";};
     selectedAbility.style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 
 function openSelectedSpellModal(obj) {
@@ -559,13 +734,14 @@ function openSelectedSpellModal(obj) {
 
     selectedSpellModal.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("spellName")[0].innerHTML;
 
-    var modifier = parseInt(obj.getElementsByClassName("spellAttackMod")[0].innerHTML);
+    var modifier = 0;
+    if (obj.getElementsByClassName("spellAttackMod")[0].innerHTML != ""){
+        modifier += parseInt(obj.getElementsByClassName("spellAttackMod")[0].innerHTML);
+    }
     modifier += findSpellAttackModifier();
     if (modifier > 0){
         modifier = "+" + modifier;
-    } else if (modifier < 0){
-        modifier = "-" + modifier;
-    } else {
+    } else if (modifier == 0){
         modifier = "";
     }
     selectedSpellModal.getElementsByClassName("attackRollSolid")[0].innerHTML = "d20" + modifier;
@@ -588,6 +764,7 @@ function openSelectedSpellModal(obj) {
     selectedSpellModal.getElementsByClassName("deleteSelectedSpellButton")[0].onclick = function() {obj.remove(); selectedSpellModal.style.display = "none";};
 
     document.getElementById("selectedSpellModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
 }
 
 function levelToProficiency(){
@@ -613,9 +790,8 @@ function findModifier(obj){
     correctMod = correctMod.substring(1);
     return parseInt(correctMod);
 }
-function findSpellAttackModifier(){
-    var trueClass = document.getElementsByClassName("classDivClass")[0].innerHTML.toLocaleLowerCase();
-    var value = 0;
+function spellAttackModifierHelper(trueClass){
+    value = 0;
     if (trueClass == "wizard"){
         value = document.getElementsByClassName("intMod")[0].innerHTML;
     } else if (trueClass == "cleric"){
@@ -635,5 +811,23 @@ function findSpellAttackModifier(){
     } else if (trueClass == "artificer"){
         value = document.getElementsByClassName("intMod")[0].innerHTML;
     }
-    return parseInt(value) + levelToProficiency();
+    return parseInt(value);
+}
+function findSpellAttackModifier(){
+    var trueClass = document.getElementsByClassName("classDivClass")[0].innerHTML.toLocaleLowerCase();
+    return spellAttackModifierHelper(trueClass) + levelToProficiency();
+}
+function findSpellSaveDC(){
+    return 8 + findSpellAttackModifier();;  
+}
+
+
+function remoteNotes(){
+    SendPlayerData();
+}
+function remoteBackstory(){
+    SendPlayerData();
+}
+function remoteInventory(){
+    SendPlayerData();
 }
