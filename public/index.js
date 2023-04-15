@@ -1,5 +1,8 @@
 
 var playerName = null;
+const localHost = "http://localhost:4144";
+const remoteHost = "https://rohanakki.com:4144";
+const currentHost = localHost;
 
 examplePlayer1 = {
     name: "Rohan",
@@ -43,6 +46,14 @@ function earlyModal(){
     document.querySelector("body").style.overflow = "hidden";
 }
 window.addEventListener('load', function () {
+    if (window.document.documentElement.clientWidth > 980){
+        let zoom = (( window.outerWidth - 10 ) / window.innerWidth) * 100;
+        var isFirefox = typeof InstallTrigger !== 'undefined';
+        if (zoom > 95 && !isFirefox){
+            this.alert("This site is not optimized for desktop. Please use a mobile device or zoom out for the best experience.");
+        }       
+    }
+    
     if (playerName == null){
         earlyModal();
     }
@@ -58,7 +69,7 @@ function removeBlockModal(){
 }
 
 function displayRemotePlayer(player){
-    fetch("http://localhost:4144/getChar?character="+player, {
+    fetch(currentHost + "/getChar?character="+player, {
         method: "GET"
     }).then(response => response.json())
     .then(data => {
@@ -83,7 +94,7 @@ function LoadPlayerData(player){
 function SendPlayerData(){
     var player = ScrapePlayerData();
     var posting = {character: player, name: player["name"]};
-    fetch("http://localhost:4144/saveChar", {
+    fetch( currentHost + "/saveChar", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -737,7 +748,7 @@ function openSelectedAttackModal(obj){
     selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML = obj.getElementsByClassName("damageType")[0].innerHTML;
     selectedAttackModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("additionalInfo")[0].innerHTML;
     selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;};
-    selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none";};
+    selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none"; SendPlayerData();};
     document.getElementById("selectedAttackModal").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
@@ -746,7 +757,7 @@ function openSelectedAbilityModal(obj){
     selectedAbility.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("abilityName")[0].innerHTML;
     selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value = obj.getElementsByClassName("abilityInfo")[0].innerHTML;
     selectedAbility.getElementsByClassName("textAreaModalAbility")[0].onblur = function() {obj.getElementsByClassName("abilityInfo")[0].innerHTML = selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value;};
-    selectedAbility.getElementsByClassName("deleteSelectedAbilityButton")[0].onclick = function() {obj.remove(); selectedAbility.style.display = "none";};
+    selectedAbility.getElementsByClassName("deleteSelectedAbilityButton")[0].onclick = function() {obj.remove(); selectedAbility.style.display = "none"; SendPlayerData();};
     selectedAbility.style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
@@ -783,7 +794,7 @@ function openSelectedSpellModal(obj) {
     selectedSpellModal.getElementsByClassName("vsmSolid")[0].innerHTML = vsmTime;
     selectedSpellModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("spellInfo")[0].innerHTML;
     selectedSpellModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("spellInfo")[0].innerHTML = selectedSpellModal.getElementsByClassName("textAreaModal")[0].value;};
-    selectedSpellModal.getElementsByClassName("deleteSelectedSpellButton")[0].onclick = function() {obj.remove(); selectedSpellModal.style.display = "none";};
+    selectedSpellModal.getElementsByClassName("deleteSelectedSpellButton")[0].onclick = function() {obj.remove(); selectedSpellModal.style.display = "none"; SendPlayerData();};
 
     document.getElementById("selectedSpellModal").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
