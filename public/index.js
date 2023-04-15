@@ -2,7 +2,7 @@
 var playerName = null;
 const localHost = "http://localhost:4144";
 const remoteHost = "https://rohanakki.com:4144";
-const currentHost = localHost;
+const currentHost = remoteHost;
 
 examplePlayer1 = {
     name: "Rohan",
@@ -45,6 +45,7 @@ function earlyModal(){
     document.getElementById("earlyPopupModal").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
+
 window.addEventListener('load', function () {
     if (window.document.documentElement.clientWidth > 980){
         let zoom = (( window.outerWidth - 10 ) / window.innerWidth) * 100;
@@ -487,6 +488,14 @@ function adjustVisibleClass(race, clas, level){
 
 //make sure to keep updating this below
 window.onclick = function(event) {
+    onCloseModal(event);
+}
+
+window.ontouchend = function(event) {
+    onCloseModal(event);
+}
+
+function onCloseModal(event){
     newAttackModal = document.getElementById("newAttackModal");
     newAbilityModal = document.getElementById("newAbilitiesModal");
     newSpellModal = document.getElementById("newSpellModal");
@@ -552,21 +561,27 @@ window.onclick = function(event) {
 
         if (strength == ""){
             strength = 10;
+            statsModal.getElementsByClassName("strengthInput")[0].value = 10;
         }
         if (dexterity == ""){
             dexterity = 10;
+            statsModal.getElementsByClassName("dexterityInput")[0].value = 10;
         }
         if (constitution == ""){
             constitution = 10;
+            statsModal.getElementsByClassName("constitutionInput")[0].value = 10;
         }
         if (intelligence == ""){
             intelligence = 10;
+            statsModal.getElementsByClassName("intelligenceInput")[0].value = 10;
         }
         if (wisdom == ""){
             wisdom = 10;
+            statsModal.getElementsByClassName("wisdomInput")[0].value = 10;
         }
         if (charisma == ""){
             charisma = 10;
+            statsModal.getElementsByClassName("charismaInput")[0].value = 10;
         }
         adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma);
         statsModal.style.display = "none";
@@ -671,8 +686,6 @@ window.onclick = function(event) {
         document.querySelector("body").style.overflow = "auto";
         SendPlayerData();
     }
-    
-
 }
 
 function openNewAttackModal() {

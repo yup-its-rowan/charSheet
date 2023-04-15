@@ -552,35 +552,21 @@
             </div>
         </div>
     </div>
-<div class="footer">
-    <div class="footerContent centerer" onclick="goFirst()">
-        <img class="footerImages" src="main.png" alt="go home">
-    </div>
-    <script>
-        function goFirst() {
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
-        }
-    </script>
-    <div class="footerContent centerer" onclick="goSecond()">
-        <img class="footerImages" src="book.png" alt="go home">
-    </div>
-    <script>
-        function goSecond() {
-            var elem = document.getElementsByClassName("spells")[0];
-            elem.scrollIntoView();
-        }
-    </script>
     
-    <div class="footerContent centerer" onclick="goThird()">
-        <img class="footerImages" src="char.png" alt="go home">
+    <div class="footer">
+        
+        <div class="footerContent centerer" onclick="document.body.scrollTop = document.documentElement.scrollTop = 0;">
+            <img class="footerImages" src="top.png" alt="go to top"></img>
+        </div>
+
+        <div class="footerContent centerer" onclick="document.getElementsByClassName('spells')[0].scrollIntoView()">
+            <img class="footerImages" src="book.png" alt="go to spellbook"></img>
+        </div>
+    
+        <div class="footerContent centerer" onclick="document.getElementsByClassName('inventory')[0].scrollIntoView()">
+            <img class="footerImages" src="char.png" alt="go to inventory"></img>
+        </div>
     </div>
-    <script>
-        function goThird() {
-            var elem = document.getElementsByClassName("inventory")[0];
-            elem.scrollIntoView();
-        }
-    </script>
-</div>
 </body>
 
 </html>
