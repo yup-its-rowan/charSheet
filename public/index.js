@@ -122,9 +122,9 @@ function ScrapePlayerData(){
     player["mhp"] = parseInt(document.getElementsByClassName("mhpInput")[0].value);
     writtenAbilities = document.getElementsByClassName("writtenAbility");
     player["abilities"] = [];
-    for (var i = 0; i < writtenAbilities.length; i++){
-        player["abilities"].push([writtenAbilities[i].getElementsByClassName("abilityName")[0].value, writtenAbilities[i].getElementsByClassName("abilityInfo")[0].value]);
-    }
+    Array.from(writtenAbilities).forEach(element => {
+        player["abilities"].push([element.getElementsByClassName("abilityName")[0].innerHTML, element.getElementsByClassName("abilityInfo")[0].innerHTML]);
+    });
     writtenAttacks = document.getElementsByClassName("writtenAttack");
     player["attacks"] = [];
     Array.from(writtenAttacks).forEach(element => {
