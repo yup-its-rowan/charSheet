@@ -17,6 +17,7 @@ examplePlayer1 = {
     ac: 15,
     chp: 10,
     mhp: 40,
+    thp: 0,
     abilities: [["Third Wind", "Your Mom"], ["Fourth Wind", "Your Dad"]],
     attacks: [["Sword", "1", "str", "P", "4d6", "Bludgeoning", "Long Boy"]],
     spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
@@ -36,6 +37,7 @@ examplePlayer2 = {
     ac: 15,
     chp: 10,
     mhp: 40,
+    thp: 0,
     abilities: [["Third Wind", "Your Mom"], ["Fourth Wind", "Your Dad"]],
     attacks: [["Sword", "1", "str", "P", "4d6", "Bludgeoning", "Long Boy"]],
     spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
@@ -79,7 +81,7 @@ function displayRemotePlayer(player){
 }
 
 function LoadPlayerData(player){
-    updateACHP(player["ac"], player["chp"], player["mhp"]);
+    updateACHP(player["ac"], player["chp"], player["mhp"], player["thp"]);
     updateStats(player["stats"]);
     updateClassAndName(player["name"], player["class"], player["race"], player["level"]);
     updateCoin(player["coin"]);
@@ -106,20 +108,35 @@ function SendPlayerData(){
     });
 }
 
+function cleanNumbers(htmlStuff, defa){
+    if (htmlStuff == ""){
+        return defa;
+    }
+    return parseInt(htmlStuff);
+}
+
+function cleanText(htmlStuff, defa){
+    if (htmlStuff == ""){
+        return defa;
+    }
+    return htmlStuff;
+}
+
 function ScrapePlayerData(){
     player = {};
     player["name"] = document.getElementsByClassName("nameDiv")[0].innerHTML;
     player["class"] = document.getElementsByClassName("classInput")[0].value;
-    player["level"] = parseInt(document.getElementsByClassName("levelInput")[0].value);
+    player["level"] = cleanNumbers(document.getElementsByClassName("levelInput")[0].value, 1);
     player["race"] = document.getElementsByClassName("raceInput")[0].value;
     player["backstory"] = document.getElementsByClassName("backstoryText")[0].value;
     player["notes"] = document.getElementsByClassName("notesText")[0].value;
     player["inventory"] = document.getElementsByClassName("inventoryText")[0].value;
-    player["coin"] = [parseInt(document.getElementsByClassName("copperInput")[0].value), parseInt(document.getElementsByClassName("silverInput")[0].value), parseInt(document.getElementsByClassName("goldInput")[0].value), parseInt(document.getElementsByClassName("platinumInput")[0].value)];
-    player["stats"] = [parseInt(document.getElementsByClassName("strengthInput")[0].value), parseInt(document.getElementsByClassName("dexterityInput")[0].value), parseInt(document.getElementsByClassName("constitutionInput")[0].value), parseInt(document.getElementsByClassName("intelligenceInput")[0].value), parseInt(document.getElementsByClassName("wisdomInput")[0].value), parseInt(document.getElementsByClassName("charismaInput")[0].value)];
-    player["ac"] = parseInt(document.getElementsByClassName("armorInput")[0].value);
-    player["chp"] = parseInt(document.getElementsByClassName("chpInput")[0].value);
-    player["mhp"] = parseInt(document.getElementsByClassName("mhpInput")[0].value);
+    player["coin"] = [cleanNumbers(document.getElementsByClassName("copperInput")[0].value, 0), cleanNumbers(document.getElementsByClassName("silverInput")[0].value, 0), cleanNumbers(document.getElementsByClassName("goldInput")[0].value, 0), cleanNumbers(document.getElementsByClassName("platinumInput")[0].value, 0)];
+    player["stats"] = [cleanNumbers(document.getElementsByClassName("strengthInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("dexterityInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("constitutionInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("intelligenceInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("wisdomInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("charismaInput")[0].value, 10)];
+    player["ac"] = cleanNumbers(document.getElementsByClassName("armorInput")[0].value, 10);
+    player["chp"] = cleanNumbers(document.getElementsByClassName("chpInput")[0].value, 0);
+    player["mhp"] = cleanNumbers(document.getElementsByClassName("mhpInput")[0].value, 1);
+    player["thp"] = cleanNumbers(document.getElementsByClassName("thpInput")[0].value, 0);
     writtenAbilities = document.getElementsByClassName("writtenAbility");
     player["abilities"] = [];
     Array.from(writtenAbilities).forEach(element => {
@@ -191,12 +208,13 @@ function updateSpellslots(spellSlots){
     adjustSpellslots(spellSlots[0], spellSlots[1], spellSlots[2], spellSlots[3], spellSlots[4], spellSlots[5], spellSlots[6], spellSlots[7], spellSlots[8], spellSlots[9]);
 }
 
-function updateACHP(ac, chp, mhp){
+function updateACHP(ac, chp, mhp, thp){
     document.getElementsByClassName("armorInput")[0].value = ac;
     document.getElementsByClassName("chpInput")[0].value = chp;
     document.getElementsByClassName("mhpInput")[0].value = mhp;
+    document.getElementsByClassName("thpInput")[0].value = thp;
     adjustVisibleAC(ac);
-    adjustVisibleHP(chp, mhp);
+    adjustVisibleHP(chp, mhp, thp);
 }
 
 function updateStats(stats){
@@ -420,11 +438,27 @@ function adjustVisibleAC(ac){
     acElem.innerHTML = ac;
 }
 
-function adjustVisibleHP(chp, mhp){
+function adjustVisibleHP(chp, mhp, thp){
+    if (chp == ""){
+        chp = 0;
+    }  
+    if (mhp == ""){
+        mhp = 0;
+    }
+    if (thp == ""){
+        thp = 0;
+    }
     var elem = document.getElementsByClassName("ACHPDiv")[0];
     var hpElem = elem.getElementsByClassName("actualHP")[0];
-
-    hpElem.innerHTML = chp + "/" + mhp;
+    
+    hpElem.innerHTML = parseInt(parseInt(chp)+parseInt(thp)) + "/" + mhp;
+    if (thp > 0) {
+        hpElem.style.color = "blue";
+    } else if (chp <= mhp/4) {
+        hpElem.style.color = "red";
+    } else {
+        hpElem.style.color = "black";
+    }
 }
 
 function statToMod(stat) {
@@ -641,13 +675,17 @@ function onCloseModal(event){
     if (event.target == HPModal) {
         var chp = HPModal.getElementsByClassName("chpInput")[0].value;   
         var mhp = HPModal.getElementsByClassName("mhpInput")[0].value;
+        var thp = HPModal.getElementsByClassName("thpInput")[0].value;
         if (chp == ""){
             chp = 0;
         }  
         if (mhp == ""){
             mhp = 0;
         }
-        adjustVisibleHP(chp, mhp);
+        if (thp == ""){
+            thp = 0;
+        }
+        adjustVisibleHP(chp, mhp, thp);
         HPModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
         SendPlayerData();
