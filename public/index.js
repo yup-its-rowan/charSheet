@@ -1,8 +1,8 @@
-
 var playerName = null;
-const localHost = "http://localhost:4144";
-const remoteHost = "https://rohanakki.com:4144";
-const currentHost = remoteHost;
+const portNumber = 4145;
+const localHost = "http://localhost:" + portNumber;
+const remoteHost = "https://rohanakki.com:" + portNumber;
+const currentHost = localHost;
 
 examplePlayer1 = {
     name: "Rohan",
@@ -43,7 +43,37 @@ examplePlayer2 = {
     spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
     spellSlots: [2,0,0,0,0,0,0,0,0,0],
 }
+
+const socket = io();
+
+socket.on('connect', function() {
+    console.log("connected to server");
+    earlyModal();
+});
+socket.on('listen', function(data) {
+    data2 = JSON.parse(data);
+    if (data2["name"] == playerName){
+        LoadPlayerData(data2["character"]);
+    }
+});
+socket.emit('penis', 'test');
+
 function earlyModal(){
+    classSelect = document.getElementsByClassName("charSelect")[0];
+    classSelect.innerHTML = "";
+    fetch(currentHost + "/getCharList", {
+        method: "GET"
+    }).then(response => response.json())
+    .then(data => {
+        data.forEach(element => {
+            characName = document.createElement("option");
+            characName.className = "charSelectOption";
+            characName.value = element;
+            characName.innerHTML = element;
+            classSelect.appendChild(characName);
+        });
+        console.log("names imported");
+    });
     document.getElementById("earlyPopupModal").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
@@ -55,10 +85,6 @@ window.addEventListener('load', function () {
         if (zoom > 95 && !isFirefox){
             this.alert("This site is not optimized for desktop. Please use a mobile device or zoom out for the best experience.");
         }       
-    }
-    
-    if (playerName == null){
-        earlyModal();
     }
 
     LoadPlayerData(examplePlayer2);
@@ -904,7 +930,6 @@ function findSpellAttackModifier(){
 function findSpellSaveDC(){
     return 8 + findSpellAttackModifier();;  
 }
-
 
 function remoteNotes(){
     SendPlayerData();

@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <title>Character Sheet</title>
     <link rel="stylesheet" href="index.css">
+    <script src="/socket.io/socket.io.js"></script>
     <script src="index.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">    
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div class="topGrid">
@@ -540,14 +541,7 @@
             <p class="modalHeading centerer headingText">Character Select</p>
             <div class="modalBody centerer" style="margin-top: 10vh;">
                 <p class="modalText">Choose your character</p>
-                <select class="charSelect">  
-                    <option class="charSelectOption" value = "Tunst">Tunst</option>  
-                    <option class="charSelectOption" value = "Delty">Delty</option>  
-                    <option class="charSelectOption" value = "Namfoodle">Namfoodle</option>  
-                    <option class="charSelectOption" value = "Rumple">Rumple</option>  
-                    <option class="charSelectOption" value = "Bingus">Bingus</option>
-                    <option class="charSelectOption" value = "Mort">Mort</option>
-                </select>
+                <select class="charSelect"></select>
             </div>
             <div class = "centerer" style="margin-top: 7vh;">
                 <button class="selectCharacterButton" onclick="removeBlockModal()">Let's Go</button>
