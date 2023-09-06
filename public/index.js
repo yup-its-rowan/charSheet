@@ -50,8 +50,10 @@ socket.on('connect', function() {
     console.log("connected to server");
     earlyModal();
 });
-socket.on('listen', function(data) {
+socket.on("listen", function(data) {
+    console.log("please work");
     data2 = JSON.parse(data);
+    
     if (data2["name"] == playerName){
         LoadPlayerData(data2["character"]);
     }
@@ -171,7 +173,7 @@ function ScrapePlayerData(){
     writtenAttacks = document.getElementsByClassName("writtenAttack");
     player["attacks"] = [];
     Array.from(writtenAttacks).forEach(element => {
-        player["attacks"].push([element.getElementsByClassName("weapon")[0].innerHTML, element.getElementsByClassName("attackRollMod")[0].innerHTML, element.getElementsByClassName("relevantStat")[0].innerHTML, element.getElementsByClassName("proficiencyCheck"), element.getElementsByClassName("damageRoll")[0].innerHTML, element.getElementsByClassName("damageType")[0].innerHTML, element.getElementsByClassName("additionalInfo")[0].innerHTML]);
+        player["attacks"].push([element.getElementsByClassName("weapon")[0].innerHTML, element.getElementsByClassName("attackRollMod")[0].innerHTML, element.getElementsByClassName("relevantStat")[0].innerHTML, element.getElementsByClassName("proficiencyCheck")[0].innerHTML, element.getElementsByClassName("damageRoll")[0].innerHTML, element.getElementsByClassName("damageType")[0].innerHTML, element.getElementsByClassName("additionalInfo")[0].innerHTML]);
     });
     player["spells"] = [];
     for (var i = 0; i < 10; i++){
@@ -291,7 +293,7 @@ function attackButton(weapon1, modSelect, proficiency, attackRollMod1, damageRol
         modSelect = "str";
     }
     if (proficiency == null){
-        proficiency = false;
+        proficiency = "N";
     }
     if (attackRollMod1 == ""){
         attackRollMod1 = "0";
@@ -320,11 +322,7 @@ function attackButton(weapon1, modSelect, proficiency, attackRollMod1, damageRol
     modSelected.className = "relevantStat";
     modSelected.innerHTML = modSelect;
     proficiencySe.className = "proficiencyCheck";
-    if (proficiency){
-        proficiencySe.innerHTML = "P";
-    } else {
-        proficiencySe.innerHTML = "N";
-    }
+    proficiencySe.innerHTML =  proficiency;
     attackRollMod.className = "attackRollMod";
     attackRollMod.innerHTML = attackRollMod1;
     damageRoll.className = "damageRoll";
@@ -358,41 +356,6 @@ function abilitiesButton(abilityName1, abilityInfo1) {
     ability1.appendChild(abilityInfo);
     ability1.onclick = function() {openSelectedAbilityModal(ability1)};
     elem.appendChild(ability1);
-}
-
-function cantripButton(cantripName1, attackRollMod1, damageRoll1, vsm1, castingTime1, range1, additionalInfo1) {
-    var elem = document.getElementsByClassName("writtenSpellList")[0];
-    var cantrip1 = document.createElement("div");
-    cantrip1.className = "writtenSpell centerer";
-    var cantripName = document.createElement("p");
-    var attackRollMod = document.createElement("p");
-    var damageRoll = document.createElement("p");
-    var vsm = document.createElement("p");
-    var castingTime = document.createElement("p");
-    var range = document.createElement("p");
-    var additionalInfo = document.createElement("p");
-    cantripName.className = "spellName";
-    cantripName.innerHTML = cantripName1;
-    attackRollMod.className = "spellAttackMod";
-    attackRollMod.innerHTML = attackRollMod1;
-    damageRoll.className = "spellDamage";
-    damageRoll.innerHTML =  damageRoll1;
-    vsm.className = "vsm";
-    vsm.innerHTML =  vsm1;
-    castingTime.className = "castingTime";
-    castingTime.innerHTML =  castingTime1;
-    range.className = "spellRange";
-    range.innerHTML =  range1;
-    additionalInfo.className = "spellInfo";
-    additionalInfo.innerHTML =  additionalInfo1;
-    cantrip1.appendChild(cantripName);
-    cantrip1.appendChild(attackRollMod);
-    cantrip1.appendChild(damageRoll);
-    cantrip1.appendChild(vsm);
-    cantrip1.appendChild(castingTime);
-    cantrip1.appendChild(range);
-    cantrip1.appendChild(additionalInfo);
-    elem.appendChild(cantrip1);
 }
 
 function spellButton(level, cantripName1, attackRollMod1, damageRoll1, vsm1, castingTime1, range1, additionalInfo1) {
@@ -555,6 +518,16 @@ window.ontouchend = function(event) {
     onCloseModal(event);
 }
 
+function emitChangeData(slote, datae){
+    var emit = {name:playerName, slot:slote, data:datae};
+    socket.emit('update', JSON.stringify(emit));
+}
+
+function emitCreateData(slote, datae, level=0){
+    var emit = {name:playerName, slot:slote, data:datae, spellslot:level};
+    socket.emit('newThing', JSON.stringify(emit));
+}
+
 function onCloseModal(event){
     newAttackModal = document.getElementById("newAttackModal");
     newAbilityModal = document.getElementById("newAbilitiesModal");
@@ -571,8 +544,40 @@ function onCloseModal(event){
 
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
-            attackButton(newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("modifierSelect")[0].value, newAttackModal.getElementsByClassName("proficiencyInput")[0].checked, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("damageInput")[0].value, newAttackModal.getElementsByClassName("damageTypeInput")[0].value, newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
+            values = [newAttackModal.getElementsByClassName("nameInput")[0].value, newAttackModal.getElementsByClassName("attackBonusInput")[0].value, newAttackModal.getElementsByClassName("modifierSelect")[0].value];
+            if (newAttackModal.getElementsByClassName("proficiencyInput")[0].checked){
+                values.push("P");
+            } else {
+                values.push("N");
+            }
+            values.push(newAttackModal.getElementsByClassName("damageInput")[0].value);
+            values.push(newAttackModal.getElementsByClassName("damageTypeInput")[0].value);
+            values.push(newAttackModal.getElementsByClassName("additionalInfoInput")[0].value);
+            if (values[0] == null){
+                values[0] = "Weapon";
+            }
+            if (values[2] == null){
+                values[2] = "str";
+            }
+            if (values[3] == null){
+                values[3] = "N";
+            }
+            if (values[1] == ""){
+                values[1] = "0";
+            }
+            if (values[4] == ""){
+                values[4] = "1";
+            }
+            if (values[5] == null){
+                values[5] = "Bludgeoning";
+            }
+            if (values[6] == null){
+                values[6] = "None";
+            }
+            emitCreateData("attacks", values);    
+            attackButton(values[0], values[2], values[3], values[1], values[4], values[5], values[6]);
         }
+        
         newAttackModal.getElementsByClassName("nameInput")[0].value = "";
         newAttackModal.getElementsByClassName("modifierSelect")[0].value = "str";
         newAttackModal.getElementsByClassName("proficiencyInput")[0].checked = false;
@@ -582,22 +587,24 @@ function onCloseModal(event){
         newAttackModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newAttackModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
     }
     if (event.target == newAbilityModal) {
         if (newAbilityModal.getElementsByClassName("nameInput")[0].value != ""){
+            values = [newAbilityModal.getElementsByClassName("nameInput")[0].value, newAbilityModal.getElementsByClassName("additionalInfoInput")[0].value];
+            emitCreateData("abilities", values);
             abilitiesButton(newAbilityModal.getElementsByClassName("nameInput")[0].value, newAbilityModal.getElementsByClassName("additionalInfoInput")[0].value);
         }
         newAbilityModal.getElementsByClassName("nameInput")[0].value = "";
         newAbilityModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newAbilityModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
     }
     if (event.target == newSpellModal) {
         var level = document.getElementsByClassName("levelOfNewSpell")[0].innerHTML;
         newSpellModal.getElementsByClassName("vsmInput")[0].value = newSpellModal.getElementsByClassName("vsmInput")[0].value.toLocaleLowerCase();
         if (newSpellModal.getElementsByClassName("nameInput")[0].value != ""){   
+            values = [newSpellModal.getElementsByClassName("nameInput")[0].value, newSpellModal.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal.getElementsByClassName("spellDamageInput")[0].value, newSpellModal.getElementsByClassName("vsmInput")[0].value, newSpellModal.getElementsByClassName("castingTimeInput")[0].value, newSpellModal.getElementsByClassName("rangeInput")[0].value, newSpellModal.getElementsByClassName("additionalInfoInput")[0].value];
+            emitCreateData("spells", values, level);
             spellButton(level, newSpellModal.getElementsByClassName("nameInput")[0].value, newSpellModal.getElementsByClassName("spellAttackBonusInput")[0].value, newSpellModal.getElementsByClassName("spellDamageInput")[0].value, newSpellModal.getElementsByClassName("vsmInput")[0].value, newSpellModal.getElementsByClassName("castingTimeInput")[0].value, newSpellModal.getElementsByClassName("rangeInput")[0].value, newSpellModal.getElementsByClassName("additionalInfoInput")[0].value);
         }
         newSpellModal.getElementsByClassName("nameInput")[0].value = "";
@@ -609,7 +616,6 @@ function onCloseModal(event){
         newSpellModal.getElementsByClassName("additionalInfoInput")[0].value = "";
         newSpellModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
     }
     if (event.target == statsModal){
         var strength = statsModal.getElementsByClassName("strengthInput")[0].value;
@@ -646,7 +652,8 @@ function onCloseModal(event){
         adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma);
         statsModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
+        values = [strength, dexterity, constitution, intelligence, wisdom, charisma];
+        emitChangeData("stats", values);
     }
     if (event.target == cashModal) {
         var cp = cashModal.getElementsByClassName("copperInput")[0].value;
@@ -669,7 +676,8 @@ function onCloseModal(event){
         adjustVisibleCash(cp, sp, gp, pp);
         cashModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
+        values = [cp, sp, gp, pp];
+        emitChangeData("coin", values);
     }
     if (event.target == spellSlotsModal) {
         var l1 = spellSlotsModal.getElementsByClassName("spellSlot1Input")[0].value;
@@ -686,7 +694,8 @@ function onCloseModal(event){
         adjustSpellslots(l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi);        
         spellSlotsModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
+        values = [l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi];
+        emitChangeData("spellSlots", values);
     }
     if (event.target == ACModal) {
         var ac = ACModal.getElementsByClassName("armorInput")[0].value;   
@@ -696,7 +705,7 @@ function onCloseModal(event){
         adjustVisibleAC(ac);
         ACModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
+        emitChangeData("ac", ac);
     }
     if (event.target == HPModal) {
         var chp = HPModal.getElementsByClassName("chpInput")[0].value;   
@@ -714,7 +723,9 @@ function onCloseModal(event){
         adjustVisibleHP(chp, mhp, thp);
         HPModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
+        emitChangeData("chp", chp);
+        emitChangeData("mhp", mhp);
+        emitChangeData("thp", thp);
     }
     if (event.target == classModal) {
         var classInput = classModal.getElementsByClassName("classInput")[0].value;   
@@ -733,7 +744,9 @@ function onCloseModal(event){
         adjustVisibleClass(raceInput, classInput, levelInput);
         classModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
+        emitChangeData("class", classInput);
+        emitChangeData("race", raceInput);
+        emitChangeData("level", levelInput);
     }
     if (event.target == selectedAttackModal) {
         selectedAttackModal.style.display = "none";
@@ -758,10 +771,6 @@ function openNewAttackModal() {
 }
 function openNewAbilitiesModal() {
     document.getElementById("newAbilitiesModal").style.display = "block";
-    document.querySelector("body").style.overflow = "hidden";
-}
-function openNewCantripModal() {
-    document.getElementById("newCantripModal").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
 function openNewSpellModal(lvl){
