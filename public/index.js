@@ -56,7 +56,49 @@ socket.on("listen", function(data) {
     if (data2["name"] == playerName){
         LoadPlayerData(data2["character"]);
     }
+    oldData = data2["oldData"];
+    if (oldData == "base"){
+        //console.log("based");
+        return;
+    }
+    //this stuff is to close important things
+
+    selectedAbilityModal = document.getElementById("selectedAbilityModal");
+    selectedAttackModal = document.getElementById("selectedAttackModal");
+    selectedSpellModal = document.getElementById("selectedSpellModal");
+    if (selectedAbilityModal.style.display == "block" && oldData.length == 2){
+        if (arrayValComparison(oldData, [selectedAbilityModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedAbilityModal.getElementsByClassName("additionalInfoInput")[0].value])){
+            selectedAbilityModal.style.display = "none";
+            document.querySelector("body").style.overflow = "auto";
+        }
+    } else if (selectedAttackModal.style.display == "block" && oldData.length == 7){
+        values = [selectedAttackModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedAttackModal.getElementsByClassName("attackBonus")[0].innerHTML, selectedAttackModal.getElementsByClassName("relevantStat")[0].innerHTML, selectedAttackModal.getElementsByClassName("hasProficiency")[0].innerHTML, selectedAttackModal.getElementsByClassName("damageRoll")[0].innerHTML, selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML, selectedAttackModal.getElementsByClassName("additionalInfoInput")[0].value];
+        if (arrayValComparison(oldData, values)){
+            selectedAttackModal.style.display = "none";
+            document.querySelector("body").style.overflow = "auto";
+        }
+    } else if (selectedSpellModal.style.display == "block" && oldData.length == 7){
+        values = [selectedSpellModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedSpellModal.getElementsByClassName("spellAttackBonus")[0].innerHTML, selectedSpellModal.getElementsByClassName("damageRollSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("dataVSM")[0].innerHTML, selectedSpellModal.getElementsByClassName("castingTimeSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("rangeSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("additionalInfoInput")[0].value];
+        spellSl = data2["spellslot"];
+        console.log(selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML + " " + spellSl);
+        if (arrayValComparison(oldData, values) && selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML == spellSl){
+            selectedSpellModal.style.display = "none";
+            document.querySelector("body").style.overflow = "auto";
+        }
+    }
 });
+
+function arrayValComparison(array1, array2){
+    if (array1.length != array2.length){
+        return false;
+    }
+    for (let index = 0; index < array1.length; index++) {
+        if (array1[index] != array2[index]){
+            return false;
+        }
+    }
+    return true;
+}
 
 function earlyModal(){
     classSelect = document.getElementsByClassName("charSelect")[0];
@@ -121,70 +163,15 @@ function LoadPlayerData(player){
 }
 
 function SendPlayerData(){
-    console.log("THIS SHOULD NOT BE RUN");
-    var player = ScrapePlayerData();
-    var posting = {character: player, name: player["name"]};
-    fetch( currentHost + "/saveChar", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(posting)
-    }).then(response => response.json()).then(response => {
-        console.log(response);
-    });
+    alert("THIS SHOULD NOT BE RUN");
+    alert("THIS HAS BEEN SUPERCEDED");
 }
 
-function cleanNumbers(htmlStuff, defa){
+function cleanNumbers(htmlStuff, defaultV){
     if (htmlStuff == ""){
-        return defa;
+        return defaultV;
     }
     return parseInt(htmlStuff);
-}
-
-function cleanText(htmlStuff, defa){
-    if (htmlStuff == ""){
-        return defa;
-    }
-    return htmlStuff;
-}
-
-function ScrapePlayerData(){
-    player = {};
-    player["name"] = document.getElementsByClassName("nameDiv")[0].innerHTML;
-    player["class"] = document.getElementsByClassName("classInput")[0].value;
-    player["level"] = cleanNumbers(document.getElementsByClassName("levelInput")[0].value, 1);
-    player["race"] = document.getElementsByClassName("raceInput")[0].value;
-    player["backstory"] = document.getElementsByClassName("backstoryText")[0].value;
-    player["notes"] = document.getElementsByClassName("notesText")[0].value;
-    player["inventory"] = document.getElementsByClassName("inventoryText")[0].value;
-    player["coin"] = [cleanNumbers(document.getElementsByClassName("copperInput")[0].value, 0), cleanNumbers(document.getElementsByClassName("silverInput")[0].value, 0), cleanNumbers(document.getElementsByClassName("goldInput")[0].value, 0), cleanNumbers(document.getElementsByClassName("platinumInput")[0].value, 0)];
-    player["stats"] = [cleanNumbers(document.getElementsByClassName("strengthInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("dexterityInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("constitutionInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("intelligenceInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("wisdomInput")[0].value, 10), cleanNumbers(document.getElementsByClassName("charismaInput")[0].value, 10)];
-    player["ac"] = cleanNumbers(document.getElementsByClassName("armorInput")[0].value, 10);
-    player["chp"] = cleanNumbers(document.getElementsByClassName("chpInput")[0].value, 0);
-    player["mhp"] = cleanNumbers(document.getElementsByClassName("mhpInput")[0].value, 1);
-    player["thp"] = cleanNumbers(document.getElementsByClassName("thpInput")[0].value, 0);
-    writtenAbilities = document.getElementsByClassName("writtenAbility");
-    player["abilities"] = [];
-    Array.from(writtenAbilities).forEach(element => {
-        player["abilities"].push([element.getElementsByClassName("abilityName")[0].innerHTML, element.getElementsByClassName("abilityInfo")[0].innerHTML]);
-    });
-    writtenAttacks = document.getElementsByClassName("writtenAttack");
-    player["attacks"] = [];
-    Array.from(writtenAttacks).forEach(element => {
-        player["attacks"].push([element.getElementsByClassName("weapon")[0].innerHTML, element.getElementsByClassName("attackRollMod")[0].innerHTML, element.getElementsByClassName("relevantStat")[0].innerHTML, element.getElementsByClassName("proficiencyCheck")[0].innerHTML, element.getElementsByClassName("damageRoll")[0].innerHTML, element.getElementsByClassName("damageType")[0].innerHTML, element.getElementsByClassName("additionalInfo")[0].innerHTML]);
-    });
-    player["spells"] = [];
-    for (var i = 0; i < 10; i++){
-        writtenSpells = document.getElementsByClassName("writtenSpellList"+i)[0];
-        writtenSpellsAtLevel = writtenSpells.getElementsByClassName("writtenSpell");
-        player["spells"][i] = [];
-        Array.from(writtenSpellsAtLevel).forEach(element => {
-            player["spells"][i].push([element.getElementsByClassName("spellName")[0].innerHTML, element.getElementsByClassName("spellAttackMod")[0].innerHTML, element.getElementsByClassName("spellDamage")[0].innerHTML, element.getElementsByClassName("vsm")[0].innerHTML, element.getElementsByClassName("castingTime")[0].innerHTML, element.getElementsByClassName("spellRange")[0].innerHTML, element.getElementsByClassName("spellInfo")[0].innerHTML]);
-        });
-    }
-    player["spellSlots"] = [parseInt(document.getElementsByClassName("spellSlot1Input")[0].value), parseInt(document.getElementsByClassName("spellSlot2Input")[0].value), parseInt(document.getElementsByClassName("spellSlot3Input")[0].value), parseInt(document.getElementsByClassName("spellSlot4Input")[0].value), parseInt(document.getElementsByClassName("spellSlot5Input")[0].value), parseInt(document.getElementsByClassName("spellSlot6Input")[0].value), parseInt(document.getElementsByClassName("spellSlot7Input")[0].value), parseInt(document.getElementsByClassName("spellSlot8Input")[0].value), parseInt(document.getElementsByClassName("spellSlot9Input")[0].value), parseInt(document.getElementsByClassName("spellSlotKiInput")[0].value)];
-    return player;
 }
 
 function updateSpells(spells){
@@ -818,6 +805,10 @@ function openSelectedAttackModal(obj){
     selectedAttackModal = document.getElementById("selectedAttackModal");
     selectedAttackModal.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("weapon")[0].innerHTML;
     var modifier = parseInt(obj.getElementsByClassName("attackRollMod")[0].innerHTML);
+    selectedAttackModal.getElementsByClassName("hasProficiency")[0].innerHTML = obj.getElementsByClassName("proficiencyCheck")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("relevantStat")[0].innerHTML = obj.getElementsByClassName("relevantStat")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("attackBonus")[0].innerHTML = obj.getElementsByClassName("attackRollMod")[0].innerHTML;
+    selectedAttackModal.getElementsByClassName("damageRoll")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML;
     if (obj.getElementsByClassName("proficiencyCheck")[0].innerHTML == "P"){
         modifier+=levelToProficiency();
     }
@@ -878,7 +869,8 @@ function openSelectedSpellModal(obj) {
     selectedSpellModal = document.getElementById("selectedSpellModal");
 
     selectedSpellModal.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("spellName")[0].innerHTML;
-
+    selectedSpellModal.getElementsByClassName("spellAttackBonus")[0].innerHTML = obj.getElementsByClassName("spellAttackMod")[0].innerHTML;
+    selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML = obj.parentElement.className.substring(16);
     var modifier = 0;
     if (obj.getElementsByClassName("spellAttackMod")[0].innerHTML != ""){
         modifier += parseInt(obj.getElementsByClassName("spellAttackMod")[0].innerHTML);
@@ -894,6 +886,7 @@ function openSelectedSpellModal(obj) {
     selectedSpellModal.getElementsByClassName("rangeSolid")[0].innerHTML = obj.getElementsByClassName("spellRange")[0].innerHTML;
     selectedSpellModal.getElementsByClassName("castingTimeSolid")[0].innerHTML = obj.getElementsByClassName("castingTime")[0].innerHTML;
     var vsmTime = obj.getElementsByClassName("vsm")[0].innerHTML;
+    selectedSpellModal.getElementsByClassName("dataVSM")[0].innerHTML = vsmTime;
     if (vsmTime == "v"){
         vsmTime = "Verbal";
     } else if (vsmTime == "s"){
@@ -975,7 +968,6 @@ function findSpellAttackModifier(){
 function findSpellSaveDC(){
     return 8 + findSpellAttackModifier();;  
 }
-
 function remoteNotes(){
     actualNotes = document.getElementsByClassName("notesText")[0].value;
     emitChangeData("notes", actualNotes);
