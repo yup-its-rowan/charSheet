@@ -47,18 +47,16 @@ examplePlayer2 = {
 const socket = io();
 
 socket.on('connect', function() {
-    console.log("connected to server");
+    //console.log("connected to server");
     earlyModal();
 });
 socket.on("listen", function(data) {
-    console.log("please work");
-    data2 = JSON.parse(data);
-    
+    //console.log("please work");
+    data2 = JSON.parse(data);   
     if (data2["name"] == playerName){
         LoadPlayerData(data2["character"]);
     }
 });
-socket.emit('penis', 'test');
 
 function earlyModal(){
     classSelect = document.getElementsByClassName("charSelect")[0];
@@ -123,6 +121,7 @@ function LoadPlayerData(player){
 }
 
 function SendPlayerData(){
+    console.log("THIS SHOULD NOT BE RUN");
     var player = ScrapePlayerData();
     var posting = {character: player, name: player["name"]};
     fetch( currentHost + "/saveChar", {
@@ -520,12 +519,22 @@ window.ontouchend = function(event) {
 
 function emitChangeData(slote, datae){
     var emit = {name:playerName, slot:slote, data:datae};
-    socket.emit('update', JSON.stringify(emit));
+    socket.emit('updateThing', JSON.stringify(emit));
 }
 
 function emitCreateData(slote, datae, level=0){
     var emit = {name:playerName, slot:slote, data:datae, spellslot:level};
     socket.emit('newThing', JSON.stringify(emit));
+}
+
+function emitDeleteData(slote, datae, level=0){
+    var emit = {name:playerName, slot:slote, data:datae, spellslot:level};
+    socket.emit('deleteThing', JSON.stringify(emit));
+}
+
+function emitEditInfo(slote, datae, newText, level=0){
+    var emit = {name:playerName, slot:slote, data:datae, spellslot:level, text:newText};
+    socket.emit('editInfo', JSON.stringify(emit));
 }
 
 function onCloseModal(event){
@@ -751,17 +760,14 @@ function onCloseModal(event){
     if (event.target == selectedAttackModal) {
         selectedAttackModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
     }
     if (event.target == selectedAbilityModal) {
         selectedAbilityModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
     }
     if (event.target == selectedSpellModal) {
         selectedSpellModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        SendPlayerData();
     }
 }
 
@@ -833,17 +839,37 @@ function openSelectedAttackModal(obj){
     selectedAttackModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML + damageMod;
     selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML = obj.getElementsByClassName("damageType")[0].innerHTML;
     selectedAttackModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("additionalInfo")[0].innerHTML;
-    selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;};
-    selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {obj.remove(); selectedAttackModal.style.display = "none"; SendPlayerData();};
-    document.getElementById("selectedAttackModal").style.display = "block";
+    selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {
+        values = [obj.getElementsByClassName("weapon")[0].innerHTML, obj.getElementsByClassName("attackRollMod")[0].innerHTML, obj.getElementsByClassName("relevantStat")[0].innerHTML, obj.getElementsByClassName("proficiencyCheck")[0].innerHTML, obj.getElementsByClassName("damageRoll")[0].innerHTML, obj.getElementsByClassName("damageType")[0].innerHTML, obj.getElementsByClassName("additionalInfo")[0].innerHTML];
+        emitEditInfo("attacks", values, selectedAttackModal.getElementsByClassName("textAreaModal")[0].value);
+        obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;  
+    };
+    selectedAttackModal.getElementsByClassName("deleteSelectedAttackButton")[0].onclick = function() {
+        values = [obj.getElementsByClassName("weapon")[0].innerHTML, obj.getElementsByClassName("attackRollMod")[0].innerHTML, obj.getElementsByClassName("relevantStat")[0].innerHTML, obj.getElementsByClassName("proficiencyCheck")[0].innerHTML, obj.getElementsByClassName("damageRoll")[0].innerHTML, obj.getElementsByClassName("damageType")[0].innerHTML, obj.getElementsByClassName("additionalInfo")[0].innerHTML];
+        emitDeleteData("attacks", values);
+        obj.remove();
+        selectedAttackModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+    };
+    selectedAttackModal.style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
 function openSelectedAbilityModal(obj){
     selectedAbility = document.getElementById("selectedAbilityModal");
     selectedAbility.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("abilityName")[0].innerHTML;
     selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value = obj.getElementsByClassName("abilityInfo")[0].innerHTML;
-    selectedAbility.getElementsByClassName("textAreaModalAbility")[0].onblur = function() {obj.getElementsByClassName("abilityInfo")[0].innerHTML = selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value;};
-    selectedAbility.getElementsByClassName("deleteSelectedAbilityButton")[0].onclick = function() {obj.remove(); selectedAbility.style.display = "none"; SendPlayerData();};
+    selectedAbility.getElementsByClassName("textAreaModalAbility")[0].onblur = function() {
+        values = [obj.getElementsByClassName("abilityName")[0].innerHTML, obj.getElementsByClassName("abilityInfo")[0].innerHTML];
+        emitEditInfo("abilities", values, selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value);
+        obj.getElementsByClassName("abilityInfo")[0].innerHTML = selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value;
+    };
+    selectedAbility.getElementsByClassName("deleteSelectedAbilityButton")[0].onclick = function() {
+        values = [obj.getElementsByClassName("abilityName")[0].innerHTML, obj.getElementsByClassName("abilityInfo")[0].innerHTML];
+        emitDeleteData("abilities", values);
+        obj.remove();
+        selectedAbility.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+    };
     selectedAbility.style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
@@ -879,10 +905,20 @@ function openSelectedSpellModal(obj) {
     }
     selectedSpellModal.getElementsByClassName("vsmSolid")[0].innerHTML = vsmTime;
     selectedSpellModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("spellInfo")[0].innerHTML;
-    selectedSpellModal.getElementsByClassName("textAreaModal")[0].onblur = function() {obj.getElementsByClassName("spellInfo")[0].innerHTML = selectedSpellModal.getElementsByClassName("textAreaModal")[0].value;};
-    selectedSpellModal.getElementsByClassName("deleteSelectedSpellButton")[0].onclick = function() {obj.remove(); selectedSpellModal.style.display = "none"; SendPlayerData();};
+    selectedSpellModal.getElementsByClassName("textAreaModal")[0].onblur = function() {
+        values = [obj.getElementsByClassName("spellName")[0].innerHTML, obj.getElementsByClassName("spellAttackMod")[0].innerHTML, obj.getElementsByClassName("spellDamage")[0].innerHTML, obj.getElementsByClassName("vsm")[0].innerHTML, obj.getElementsByClassName("castingTime")[0].innerHTML, obj.getElementsByClassName("spellRange")[0].innerHTML, obj.getElementsByClassName("spellInfo")[0].innerHTML];
+        emitEditInfo("spells", values, selectedSpellModal.getElementsByClassName("textAreaModal")[0].value, obj.parentElement.className.substring(16));
+        obj.getElementsByClassName("spellInfo")[0].innerHTML = selectedSpellModal.getElementsByClassName("textAreaModal")[0].value;
+    };
+    selectedSpellModal.getElementsByClassName("deleteSelectedSpellButton")[0].onclick = function() {
+        values = [obj.getElementsByClassName("spellName")[0].innerHTML, obj.getElementsByClassName("spellAttackMod")[0].innerHTML, obj.getElementsByClassName("spellDamage")[0].innerHTML, obj.getElementsByClassName("vsm")[0].innerHTML, obj.getElementsByClassName("castingTime")[0].innerHTML, obj.getElementsByClassName("spellRange")[0].innerHTML, obj.getElementsByClassName("spellInfo")[0].innerHTML];
+        emitDeleteData("spells", values, obj.parentElement.className.substring(16));
+        obj.remove();
+        selectedSpellModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+    };
 
-    document.getElementById("selectedSpellModal").style.display = "block";
+    selectedSpellModal.style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
 }
 
@@ -941,11 +977,14 @@ function findSpellSaveDC(){
 }
 
 function remoteNotes(){
-    SendPlayerData();
+    actualNotes = document.getElementsByClassName("notesText")[0].value;
+    emitChangeData("notes", actualNotes);
 }
 function remoteBackstory(){
-    SendPlayerData();
+    actualBackstory = document.getElementsByClassName("backstoryText")[0].value;
+    emitChangeData("backstory", actualBackstory);
 }
 function remoteInventory(){
-    SendPlayerData();
+    actualInventory = document.getElementsByClassName("inventoryText")[0].value;
+    emitChangeData("inventory", actualInventory);
 }
