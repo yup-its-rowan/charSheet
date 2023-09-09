@@ -11,7 +11,9 @@ const socketIO = require('socket.io');
 const app = express();
 
 // cert stuff
-var mode = 'dev';
+var mode = 'prod';
+
+credentials = null;
 
 if (mode != 'dev'){
 	const privateKey = fs.readFileSync('/etc/letsencrypt/live/rohanakki.com/privkey.pem', 'utf8');
@@ -19,7 +21,7 @@ if (mode != 'dev'){
 	const ca = fs.readFileSync('/etc/letsencrypt/live/rohanakki.com/chain.pem', 'utf8');
 	
 	
-	const credentials = {
+	var credentials = {
 		key: privateKey,
 		cert: certificate,
 		ca: ca

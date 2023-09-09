@@ -57,37 +57,38 @@ socket.on("listen", function(data) {
     data2 = JSON.parse(data);   
     if (data2["name"] == playerName){
         LoadPlayerData(data2["character"]);
-    }
-    oldData = data2["oldData"];
-    if (oldData == "base"){
-        //console.log("based");
-        return;
-    }
-    //this stuff is to close important things
-
-    selectedAbilityModal = document.getElementById("selectedAbilityModal");
-    selectedAttackModal = document.getElementById("selectedAttackModal");
-    selectedSpellModal = document.getElementById("selectedSpellModal");
-    if (selectedAbilityModal.style.display == "block" && oldData.length == 2){
-        if (arrayValComparison(oldData, [selectedAbilityModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedAbilityModal.getElementsByClassName("additionalInfoInput")[0].value])){
-            selectedAbilityModal.style.display = "none";
-            document.querySelector("body").style.overflow = "auto";
+        oldData = data2["oldData"];
+        if (oldData == "base"){
+            //console.log("based");
+            return;
         }
-    } else if (selectedAttackModal.style.display == "block" && oldData.length == 7){
-        values = [selectedAttackModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedAttackModal.getElementsByClassName("attackBonus")[0].innerHTML, selectedAttackModal.getElementsByClassName("relevantStat")[0].innerHTML, selectedAttackModal.getElementsByClassName("hasProficiency")[0].innerHTML, selectedAttackModal.getElementsByClassName("damageRoll")[0].innerHTML, selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML, selectedAttackModal.getElementsByClassName("additionalInfoInput")[0].value];
-        if (arrayValComparison(oldData, values)){
-            selectedAttackModal.style.display = "none";
-            document.querySelector("body").style.overflow = "auto";
-        }
-    } else if (selectedSpellModal.style.display == "block" && oldData.length == 7){
-        values = [selectedSpellModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedSpellModal.getElementsByClassName("spellAttackBonus")[0].innerHTML, selectedSpellModal.getElementsByClassName("damageRollSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("dataVSM")[0].innerHTML, selectedSpellModal.getElementsByClassName("castingTimeSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("rangeSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("additionalInfoInput")[0].value];
-        spellSl = data2["spellslot"];
-        console.log(selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML + " " + spellSl);
-        if (arrayValComparison(oldData, values) && selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML == spellSl){
-            selectedSpellModal.style.display = "none";
-            document.querySelector("body").style.overflow = "auto";
+        //this stuff is to close important things
+    
+        selectedAbilityModal = document.getElementById("selectedAbilityModal");
+        selectedAttackModal = document.getElementById("selectedAttackModal");
+        selectedSpellModal = document.getElementById("selectedSpellModal");
+        if (selectedAbilityModal.style.display == "block" && oldData.length == 2){
+            if (arrayValComparison(oldData, [selectedAbilityModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedAbilityModal.getElementsByClassName("additionalInfoInput")[0].value])){
+                selectedAbilityModal.style.display = "none";
+                document.querySelector("body").style.overflow = "auto";
+            }
+        } else if (selectedAttackModal.style.display == "block" && oldData.length == 7){
+            values = [selectedAttackModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedAttackModal.getElementsByClassName("attackBonus")[0].innerHTML, selectedAttackModal.getElementsByClassName("relevantStat")[0].innerHTML, selectedAttackModal.getElementsByClassName("hasProficiency")[0].innerHTML, selectedAttackModal.getElementsByClassName("damageRoll")[0].innerHTML, selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML, selectedAttackModal.getElementsByClassName("additionalInfoInput")[0].value];
+            if (arrayValComparison(oldData, values)){
+                selectedAttackModal.style.display = "none";
+                document.querySelector("body").style.overflow = "auto";
+            }
+        } else if (selectedSpellModal.style.display == "block" && oldData.length == 7){
+            values = [selectedSpellModal.getElementsByClassName("modalHeading")[0].innerHTML, selectedSpellModal.getElementsByClassName("spellAttackBonus")[0].innerHTML, selectedSpellModal.getElementsByClassName("damageRollSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("dataVSM")[0].innerHTML, selectedSpellModal.getElementsByClassName("castingTimeSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("rangeSolid")[0].innerHTML, selectedSpellModal.getElementsByClassName("additionalInfoInput")[0].value];
+            spellSl = data2["spellslot"];
+            console.log(selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML + " " + spellSl);
+            if (arrayValComparison(oldData, values) && selectedSpellModal.getElementsByClassName("spellLevel")[0].innerHTML == spellSl){
+                selectedSpellModal.style.display = "none";
+                document.querySelector("body").style.overflow = "auto";
+            }
         }
     }
+    
 });
 
 function arrayValComparison(array1, array2){
@@ -935,7 +936,7 @@ function openSelectedAttackModal(obj){
     selectedAttackModal.getElementsByClassName("damageRollSolid")[0].innerHTML = obj.getElementsByClassName("damageRoll")[0].innerHTML + damageMod;
     selectedAttackModal.getElementsByClassName("damagingType")[0].innerHTML = obj.getElementsByClassName("damageType")[0].innerHTML;
     selectedAttackModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("additionalInfo")[0].innerHTML;
-    selectedAttackModal.getElementsByClassName("textAreaModal")[0].onblur = function() {
+    selectedAttackModal.getElementsByClassName("textAreaModal")[0].oninput = function() {
         values = [obj.getElementsByClassName("weapon")[0].innerHTML, obj.getElementsByClassName("attackRollMod")[0].innerHTML, obj.getElementsByClassName("relevantStat")[0].innerHTML, obj.getElementsByClassName("proficiencyCheck")[0].innerHTML, obj.getElementsByClassName("damageRoll")[0].innerHTML, obj.getElementsByClassName("damageType")[0].innerHTML, obj.getElementsByClassName("additionalInfo")[0].innerHTML];
         emitEditInfo("attacks", values, selectedAttackModal.getElementsByClassName("textAreaModal")[0].value);
         obj.getElementsByClassName("additionalInfo")[0].innerHTML = selectedAttackModal.getElementsByClassName("textAreaModal")[0].value;  
@@ -954,7 +955,7 @@ function openSelectedAbilityModal(obj){
     selectedAbility = document.getElementById("selectedAbilityModal");
     selectedAbility.getElementsByClassName("headingText")[0].innerHTML = obj.getElementsByClassName("abilityName")[0].innerHTML;
     selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value = obj.getElementsByClassName("abilityInfo")[0].innerHTML;
-    selectedAbility.getElementsByClassName("textAreaModalAbility")[0].onblur = function() {
+    selectedAbility.getElementsByClassName("textAreaModalAbility")[0].oninput = function() {
         values = [obj.getElementsByClassName("abilityName")[0].innerHTML, obj.getElementsByClassName("abilityInfo")[0].innerHTML];
         emitEditInfo("abilities", values, selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value);
         obj.getElementsByClassName("abilityInfo")[0].innerHTML = selectedAbility.getElementsByClassName("textAreaModalAbility")[0].value;
@@ -1003,7 +1004,7 @@ function openSelectedSpellModal(obj) {
     }
     selectedSpellModal.getElementsByClassName("vsmSolid")[0].innerHTML = vsmTime;
     selectedSpellModal.getElementsByClassName("textAreaModal")[0].value = obj.getElementsByClassName("spellInfo")[0].innerHTML;
-    selectedSpellModal.getElementsByClassName("textAreaModal")[0].onblur = function() {
+    selectedSpellModal.getElementsByClassName("textAreaModal")[0].oninput = function() {
         values = [obj.getElementsByClassName("spellName")[0].innerHTML, obj.getElementsByClassName("spellAttackMod")[0].innerHTML, obj.getElementsByClassName("spellDamage")[0].innerHTML, obj.getElementsByClassName("vsm")[0].innerHTML, obj.getElementsByClassName("castingTime")[0].innerHTML, obj.getElementsByClassName("spellRange")[0].innerHTML, obj.getElementsByClassName("spellInfo")[0].innerHTML];
         emitEditInfo("spells", values, selectedSpellModal.getElementsByClassName("textAreaModal")[0].value, obj.parentElement.className.substring(16));
         obj.getElementsByClassName("spellInfo")[0].innerHTML = selectedSpellModal.getElementsByClassName("textAreaModal")[0].value;
