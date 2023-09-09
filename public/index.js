@@ -1,8 +1,8 @@
 var playerName = null;
-const portNumber = 4145;
+const portNumber = 4144;
 const localHost = "http://localhost:" + portNumber;
 const remoteHost = "https://rohanakki.com:" + portNumber;
-const currentHost = localHost;
+const currentHost = remoteHost;
 
 examplePlayer1 = {
     name: "Rohan",
