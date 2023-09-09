@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">    
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, height=device-height, maximum-scale=1.0, initial-scale=1.0">
 </head>
 <body>
     <div class="topGrid">
@@ -59,6 +59,9 @@
                     <p class="HPDivText" style="font-weight: bold;">HP</p>
                     <p class="actualHP">30/30</p>
                 </div>
+            </div>
+            <div class="classDiv centerer borderer" onclick="openProficiencyModal()"> 
+                <span class="profOpen">Proficiencies</span>
             </div>
         </div>
     </div>
@@ -348,17 +351,17 @@
             <p class="modalHeading centerer headingText">Stats</p>
             <div class="modalBody centerer">
                 <p class="modalText">Strength</p>
-                <input class="modalInput strengthInput" type="number" placeholder="Strength" value="10">
+                <input class="modalInput strengthInput" type="number" placeholder="Strength" value="10" oninput="stripAndSendStats()">
                 <p class="modalText">Dexterity</p>
-                <input class="modalInput dexterityInput" type="number" placeholder="Dexterity" value="10">
+                <input class="modalInput dexterityInput" type="number" placeholder="Dexterity" value="10" oninput="stripAndSendStats()">
                 <p class="modalText">Constitution</p>
-                <input class="modalInput constitutionInput" type="number" placeholder="Constitution" value="10">
+                <input class="modalInput constitutionInput" type="number" placeholder="Constitution" value="10" oninput="stripAndSendStats()">
                 <p class="modalText">Intelligence</p>
-                <input class="modalInput intelligenceInput" type="number" placeholder="Intelligence" value="10">
+                <input class="modalInput intelligenceInput" type="number" placeholder="Intelligence" value="10" oninput="stripAndSendStats()">
                 <p class="modalText">Wisdom</p>
-                <input class="modalInput wisdomInput" type="number" placeholder="Wisdom" value="10">
+                <input class="modalInput wisdomInput" type="number" placeholder="Wisdom" value="10" oninput="stripAndSendStats()">
                 <p class="modalText">Charisma</p>
-                <input class="modalInput charismaInput" type="number" placeholder="Charisma" value="10">
+                <input class="modalInput charismaInput" type="number" placeholder="Charisma" value="10" oninput="stripAndSendStats()">
             </div>
         </div>
     </div>
@@ -368,61 +371,139 @@
             <p class="modalHeading centerer headingText">Cash</p>
             <div class="modalBody centerer">
                 <p class="modalText">Copper</p>
-                <input class="modalInput copperInput" type="number" placeholder="Copper" value="0">
+                <input class="modalInput copperInput" type="number" placeholder="Copper" value="0" oninput="stripAndSendCash()">
                 <p class="modalText">Silver</p>
-                <input class="modalInput silverInput" type="number" placeholder="Silver" value="0">
+                <input class="modalInput silverInput" type="number" placeholder="Silver" value="0" oninput="stripAndSendCash()">
                 <p class="modalText">Gold</p>
-                <input class="modalInput goldInput" type="number" placeholder="Gold" value="0">
+                <input class="modalInput goldInput" type="number" placeholder="Gold" value="0" oninput="stripAndSendCash()">
                 <p class="modalText">Platinum</p>
-                <input class="modalInput platinumInput" type="number" placeholder="Platinum" value="0">
+                <input class="modalInput platinumInput" type="number" placeholder="Platinum" value="0" oninput="stripAndSendCash()">
             </div>
         </div>
     </div>
-
+    <div class="modal" id="proficiencyModal">
+        <div class="modalContent borderer">
+            <p class ="modalheading centerer headingText proficiencyHeader">Proficiencies</p>
+            <div class="modalBodyProf centerer">
+                <input class="modalInput profCheckbox pf0" type="checkbox" onclick="proficiencyHandler(this, 0); stripAndSendProficiency();">
+                <p class="modalText profSkill">Acrobatics</p>
+                <p class="hiddenAttribute0" style="display:none">dex</p>
+                <p class="calculatedProf0 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf1" type="checkbox" onclick="proficiencyHandler(this, 1); stripAndSendProficiency();">
+                <p class="modalText profSkill">Animal Handling</p>
+                <p class="hiddenAttribute1" style="display:none">wis</p>
+                <p class="calculatedProf1 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf2" type="checkbox" onclick="proficiencyHandler(this, 2); stripAndSendProficiency();">
+                <p class="modalText profSkill">Arcana</p>
+                <p class="hiddenAttribute2" style="display:none">int</p>
+                <p class="calculatedProf2 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf3" type="checkbox" onclick="proficiencyHandler(this, 3); stripAndSendProficiency();">
+                <p class="modalText profSkill">Athletics</p>
+                <p class="hiddenAttribute3" style="display:none">str</p>
+                <p class="calculatedProf3 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf4" type="checkbox" onclick="proficiencyHandler(this, 4); stripAndSendProficiency();">
+                <p class="modalText profSkill">Deception</p>
+                <p class="hiddenAttribute4" style="display:none">cha</p>
+                <p class="calculatedProf4 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf5" type="checkbox" onclick="proficiencyHandler(this, 5); stripAndSendProficiency();">
+                <p class="modalText profSkill">History</p>
+                <p class="hiddenAttribute5" style="display:none">int</p>
+                <p class="calculatedProf5 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf6" type="checkbox" onclick="proficiencyHandler(this, 6); stripAndSendProficiency();">
+                <p class="modalText profSkill">Insight</p>
+                <p class="hiddenAttribute6" style="display:none">wis</p>
+                <p class="calculatedProf6 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf7" type="checkbox" onclick="proficiencyHandler(this, 7); stripAndSendProficiency();">
+                <p class="modalText profSkill">Intimidation</p>
+                <p class="hiddenAttribute7" style="display:none">cha</p>
+                <p class="calculatedProf7 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf8" type="checkbox" onclick="proficiencyHandler(this, 8); stripAndSendProficiency();">
+                <p class="modalText profSkill">Investigation</p>
+                <p class="hiddenAttribute8" style="display:none">int</p>
+                <p class="calculatedProf8 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf9" type="checkbox" onclick="proficiencyHandler(this, 9); stripAndSendProficiency();">
+                <p class="modalText profSkill">Medicine</p>
+                <p class="hiddenAttribute9" style="display:none">wis</p>
+                <p class="calculatedProf9 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf10" type="checkbox" onclick="proficiencyHandler(this, 10); stripAndSendProficiency();">
+                <p class="modalText profSkill">Nature</p>
+                <p class="hiddenAttribute10" style="display:none">int</p>
+                <p class="calculatedProf10 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf11" type="checkbox" onclick="proficiencyHandler(this, 11); stripAndSendProficiency();">
+                <p class="modalText profSkill">Perception</p>
+                <p class="hiddenAttribute11" style="display:none">wis</p>
+                <p class="calculatedProf11 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf12" type="checkbox" onclick="proficiencyHandler(this, 12); stripAndSendProficiency();">
+                <p class="modalText profSkill">Performance</p>
+                <p class="hiddenAttribute12" style="display:none">cha</p>
+                <p class="calculatedProf12 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf13" type="checkbox" onclick="proficiencyHandler(this, 13); stripAndSendProficiency();">
+                <p class="modalText profSkill">Persuasion</p>
+                <p class="hiddenAttribute13" style="display:none">cha</p>
+                <p class="calculatedProf13 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf14" type="checkbox" onclick="proficiencyHandler(this, 14); stripAndSendProficiency();">
+                <p class="modalText profSkill">Religion</p>
+                <p class="hiddenAttribute14" style="display:none">int</p>
+                <p class="calculatedProf14 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf15" type="checkbox" onclick="proficiencyHandler(this, 15); stripAndSendProficiency();">
+                <p class="modalText profSkill">Sleight of Hand</p>
+                <p class="hiddenAttribute15" style="display:none">dex</p>
+                <p class="calculatedProf15 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf16" type="checkbox" onclick="proficiencyHandler(this, 16); stripAndSendProficiency();">
+                <p class="modalText profSkill">Stealth</p>
+                <p class="hiddenAttribute16" style="display:none">dex</p>
+                <p class="calculatedProf16 calcProfVal">+0</p>
+                <input class="modalInput profCheckbox pf17" type="checkbox" onclick="proficiencyHandler(this, 17); stripAndSendProficiency();">
+                <p class="modalText profSkill">Survival</p>
+                <p class="hiddenAttribute17" style="display:none">wis</p>
+                <p class="calculatedProf17 calcProfVal">+0</p>
+            </div>
+        </div>
+    </div>
     <div class ="modal" id ="spellSlotsModal">
         <div class="modalContent borderer">
             <p class="modalHeading centerer headingText">Spellslots</p>
             <div class="modalBodySpellslot centerer">
-                <p class="modalText">Level 1</p>
-                <p onclick="spellSlotChanger(-1, 1)">-</p>
+                <p class="modalText modalSpellslotStuff">Level 1</p>
+                <p onclick="spellSlotChanger(-1, 1); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot1Input" type="number" placeholder="Level 1" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 1)">+</p>
-                <p class="modalText">Level 2</p>
-                <p onclick="spellSlotChanger(-1, 2)">-</p>
+                <p onclick="spellSlotChanger(1, 1); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 2</p>
+                <p onclick="spellSlotChanger(-1, 2); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot2Input" type="number" placeholder="Level 2" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 2)">+</p>
-                <p class="modalText">Level 3</p>
-                <p onclick="spellSlotChanger(-1, 3)">-</p>
+                <p onclick="spellSlotChanger(1, 2); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 3</p>
+                <p onclick="spellSlotChanger(-1, 3); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot3Input" type="number" placeholder="Level 3" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 3)">+</p>
-                <p class="modalText">Level 4</p>
-                <p onclick="spellSlotChanger(-1, 4)">-</p>
+                <p onclick="spellSlotChanger(1, 3); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 4</p>
+                <p onclick="spellSlotChanger(-1, 4); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot4Input" type="number" placeholder="Level 4" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 4)">+</p>
-                <p class="modalText">Level 5</p>
-                <p onclick="spellSlotChanger(-1, 5)">-</p>
+                <p onclick="spellSlotChanger(1, 4); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 5</p>
+                <p onclick="spellSlotChanger(-1, 5); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot5Input" type="number" placeholder="Level 5" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 5)">+</p>
-                <p class="modalText">Level 6</p>
-                <p onclick="spellSlotChanger(-1, 6)">-</p>
+                <p onclick="spellSlotChanger(1, 5); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 6</p>
+                <p onclick="spellSlotChanger(-1, 6); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot6Input" type="number" placeholder="Level 6" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 6)">+</p>
-                <p class="modalText">Level 7</p> 
-                <p onclick="spellSlotChanger(-1, 7)">-</p>
+                <p onclick="spellSlotChanger(1, 6); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 7</p> 
+                <p onclick="spellSlotChanger(-1, 7); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot7Input" type="number" placeholder="Level 7" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 7)">+</p>
-                <p class="modalText">Level 8</p>
-                <p onclick="spellSlotChanger(-1, 8)">-</p>
+                <p onclick="spellSlotChanger(1, 7); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 8</p>
+                <p onclick="spellSlotChanger(-1, 8); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot8Input" type="number" placeholder="Level 8" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 8)">+</p>
-                <p class="modalText">Level 9</p>
-                <p onclick="spellSlotChanger(-1, 9)">-</p>
+                <p onclick="spellSlotChanger(1, 8); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Level 9</p>
+                <p onclick="spellSlotChanger(-1, 9); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlot9Input" type="number" placeholder="Level 9" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 9)">+</p>
-                <p class="modalText">Ki Points</p>
-                <p onclick="spellSlotChanger(-1, 'Ki')">-</p>
+                <p onclick="spellSlotChanger(1, 9); stripAndSendSpellslots();">+</p>
+                <p class="modalText modalSpellslotStuff">Ki Points</p>
+                <p onclick="spellSlotChanger(-1, 'Ki'); stripAndSendSpellslots();">-</p>
                 <input class="modalInputSpellslot spellSlotKiInput" type="number" placeholder="Ki Points" value="0" disabled>
-                <p onclick="spellSlotChanger(1, 'Ki')">+</p>
+                <p onclick="spellSlotChanger(1, 'Ki'); stripAndSendSpellslots();">+</p>
             </div>
             <script>
                 function spellSlotChanger(val, which){
@@ -438,7 +519,7 @@
             <p class="modalHeading centerer headingText">Armor Class</p>
             <div class="modalBody centerer">
                 <p class="modalText">Armor Class</p>
-                <input class="modalInput armorInput" type="number" placeholder="Armor Class" value="10">
+                <input class="modalInput armorInput" type="number" placeholder="Armor Class" value="10" oninput="stripAndSendACModal()">
             </div>
         </div>
     </div>
@@ -448,11 +529,11 @@
             <p class="modalHeading centerer headingText">Health Points</p>
             <div class="modalBody centerer">
                 <p class="modalText">Current HP</p>
-                <input class="modalInput chpInput" type="number" placeholder="Current HP" value="30">
+                <input class="modalInput chpInput" type="number" placeholder="Current HP" value="30" oninput="stripAndSendHPModal()">
                 <p class="modalText">Max HP</p>
-                <input class="modalInput mhpInput" type="number" placeholder="Max HP" value="30">
+                <input class="modalInput mhpInput" type="number" placeholder="Max HP" value="30" oninput="stripAndSendHPModal()">
                 <p class="modalText">Temporary HP</p>
-                <input class="modalInput thpInput" type="number" placeholder="Temporary HP" value="0">
+                <input class="modalInput thpInput" type="number" placeholder="Temporary HP" value="0" oninput="stripAndSendHPModal()">
             </div>
         </div>
     </div>
@@ -462,11 +543,11 @@
             <p class="modalHeading centerer headingText">Character Info</p>
             <div class="modalBody centerer">
                 <p class="modalText">Race</p>
-                <input class="modalInput raceInput" type="text" placeholder="Race">
+                <input class="modalInput raceInput" type="text" placeholder="Race" oninput="stripAndSendClass()">
                 <p class="modalText">Class</p>
-                <input class="modalInput classInput" type="text" placeholder="Class">
+                <input class="modalInput classInput" type="text" placeholder="Class" oninput="stripAndSendClass()">
                 <p class="modalText">Level</p>
-                <input class="modalInput levelInput" type="number" placeholder="Level" value="1">
+                <input class="modalInput levelInput" type="number" placeholder="Level" value="1" oninput="stripAndSendClass()">
             </div>
         </div>
     </div>
@@ -547,7 +628,7 @@
         <div class="modalContent borderer">
             <p class="modalHeading centerer headingText">Character Select</p>
             <div class="modalBody centerer" style="margin-top: 10vh;">
-                <p class="modalText">Choose your character</p>
+                <p class="modalText chooseYour">Choose your character</p>
                 <select class="charSelect"></select>
             </div>
             <div class = "centerer" style="margin-top: 7vh;">

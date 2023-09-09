@@ -22,6 +22,7 @@ examplePlayer1 = {
     attacks: [["Sword", "1", "str", "P", "4d6", "Bludgeoning", "Long Boy"]],
     spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
     spellSlots: [2,0,0,0,0,0,0,0,0,0],
+    proficiencies: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }
 
 examplePlayer2 = {
@@ -42,6 +43,7 @@ examplePlayer2 = {
     attacks: [["Sword", "1", "str", "P", "4d6", "Bludgeoning", "Long Boy"]],
     spells: [[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]],[],[],[],[],[],[],[],[],[["Cheeseball", "2", "8d20", "S", "5 minutes", "5 ft", "Big attack"]]],
     spellSlots: [2,0,0,0,0,0,0,0,0,0],
+    proficiencies: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }
 
 const socket = io();
@@ -121,6 +123,7 @@ function earlyModal(){
 }
 
 window.addEventListener('load', function () {
+    /*
     if (window.document.documentElement.clientWidth > 980){
         let zoom = (( window.outerWidth - 10 ) / window.innerWidth) * 100;
         var isFirefox = typeof InstallTrigger !== 'undefined';
@@ -128,6 +131,7 @@ window.addEventListener('load', function () {
             this.alert("This site is not optimized for desktop. Please use a mobile device or zoom out for the best experience.");
         }       
     }
+    */
 
     LoadPlayerData(examplePlayer2);
 });
@@ -160,6 +164,7 @@ function LoadPlayerData(player){
     updateAbilities(player["abilities"]);
     updateAttacks(player["attacks"]);
     updateSpellslots(player["spellSlots"]);
+    updateProficiencies(player["proficiencies"]);
 }
 
 function SendPlayerData(){
@@ -172,6 +177,18 @@ function cleanNumbers(htmlStuff, defaultV){
         return defaultV;
     }
     return parseInt(htmlStuff);
+}
+
+function updateProficiencies(profs){
+    for (let index = 0; index < 18; index++) {
+        item = document.getElementsByClassName("pf" + index)[0];
+        if (profs[index] == 1){
+            item.checked = true;
+        } else {
+            item.checked = false;
+        }
+        proficiencyHandler(item, index);
+    }
 }
 
 function updateSpells(spells){
@@ -426,7 +443,7 @@ function adjustVisibleHP(chp, mhp, thp){
     var elem = document.getElementsByClassName("ACHPDiv")[0];
     var hpElem = elem.getElementsByClassName("actualHP")[0];
     
-    hpElem.innerHTML = parseInt(parseInt(chp)+parseInt(thp)) + "/" + mhp;
+    hpElem.innerHTML = parseInt(parseInt(chp)+parseInt(thp));
     if (thp > 0) {
         hpElem.style.color = "blue";
     } else if (chp <= mhp/4) {
@@ -537,6 +554,7 @@ function onCloseModal(event){
     selectedAttackModal = document.getElementById("selectedAttackModal");
     selectedAbilityModal = document.getElementById("selectedAbilityModal");
     selectedSpellModal = document.getElementById("selectedSpellModal");
+    proficiencyModal = document.getElementById("proficiencyModal");
 
     if (event.target == newAttackModal) {
         if (newAttackModal.getElementsByClassName("nameInput")[0].value != ""){
@@ -614,135 +632,34 @@ function onCloseModal(event){
         document.querySelector("body").style.overflow = "auto";
     }
     if (event.target == statsModal){
-        var strength = statsModal.getElementsByClassName("strengthInput")[0].value;
-        var dexterity = statsModal.getElementsByClassName("dexterityInput")[0].value;
-        var constitution = statsModal.getElementsByClassName("constitutionInput")[0].value;
-        var intelligence = statsModal.getElementsByClassName("intelligenceInput")[0].value;
-        var wisdom = statsModal.getElementsByClassName("wisdomInput")[0].value;
-        var charisma = statsModal.getElementsByClassName("charismaInput")[0].value;
-
-        if (strength == ""){
-            strength = 10;
-            statsModal.getElementsByClassName("strengthInput")[0].value = 10;
-        }
-        if (dexterity == ""){
-            dexterity = 10;
-            statsModal.getElementsByClassName("dexterityInput")[0].value = 10;
-        }
-        if (constitution == ""){
-            constitution = 10;
-            statsModal.getElementsByClassName("constitutionInput")[0].value = 10;
-        }
-        if (intelligence == ""){
-            intelligence = 10;
-            statsModal.getElementsByClassName("intelligenceInput")[0].value = 10;
-        }
-        if (wisdom == ""){
-            wisdom = 10;
-            statsModal.getElementsByClassName("wisdomInput")[0].value = 10;
-        }
-        if (charisma == ""){
-            charisma = 10;
-            statsModal.getElementsByClassName("charismaInput")[0].value = 10;
-        }
-        adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma);
+        stripAndSendStats();
         statsModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        values = [strength, dexterity, constitution, intelligence, wisdom, charisma];
-        emitChangeData("stats", values);
     }
     if (event.target == cashModal) {
-        var cp = cashModal.getElementsByClassName("copperInput")[0].value;
-        var sp = cashModal.getElementsByClassName("silverInput")[0].value;
-        var gp = cashModal.getElementsByClassName("goldInput")[0].value;
-        var pp = cashModal.getElementsByClassName("platinumInput")[0].value;
-
-        if (cp == ""){
-            cp = 0;
-        }
-        if (sp == ""){
-            sp = 0;
-        }
-        if (gp == ""){
-            gp = 0;
-        }
-        if (pp == ""){
-            pp = 0;
-        }
-        adjustVisibleCash(cp, sp, gp, pp);
+        stripAndSendCash();
         cashModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        values = [cp, sp, gp, pp];
-        emitChangeData("coin", values);
     }
     if (event.target == spellSlotsModal) {
-        var l1 = spellSlotsModal.getElementsByClassName("spellSlot1Input")[0].value;
-        var l2 = spellSlotsModal.getElementsByClassName("spellSlot2Input")[0].value;
-        var l3 = spellSlotsModal.getElementsByClassName("spellSlot3Input")[0].value;
-        var l4 = spellSlotsModal.getElementsByClassName("spellSlot4Input")[0].value;
-        var l5 = spellSlotsModal.getElementsByClassName("spellSlot5Input")[0].value;
-        var l6 = spellSlotsModal.getElementsByClassName("spellSlot6Input")[0].value;
-        var l7 = spellSlotsModal.getElementsByClassName("spellSlot7Input")[0].value;
-        var l8 = spellSlotsModal.getElementsByClassName("spellSlot8Input")[0].value;
-        var l9 = spellSlotsModal.getElementsByClassName("spellSlot9Input")[0].value;
-        var lKi = spellSlotsModal.getElementsByClassName("spellSlotKiInput")[0].value;
-
-        adjustSpellslots(l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi);        
+        stripAndSendSpellslots();        
         spellSlotsModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        values = [l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi];
-        emitChangeData("spellSlots", values);
     }
     if (event.target == ACModal) {
-        var ac = ACModal.getElementsByClassName("armorInput")[0].value;   
-        if (ac == ""){
-            ac = 10;
-        }  
-        adjustVisibleAC(ac);
+        stripAndSendACModal();
         ACModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        emitChangeData("ac", ac);
     }
     if (event.target == HPModal) {
-        var chp = HPModal.getElementsByClassName("chpInput")[0].value;   
-        var mhp = HPModal.getElementsByClassName("mhpInput")[0].value;
-        var thp = HPModal.getElementsByClassName("thpInput")[0].value;
-        if (chp == ""){
-            chp = 0;
-        }  
-        if (mhp == ""){
-            mhp = 0;
-        }
-        if (thp == ""){
-            thp = 0;
-        }
-        adjustVisibleHP(chp, mhp, thp);
+        stripAndSendHPModal();
         HPModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        emitChangeData("chp", chp);
-        emitChangeData("mhp", mhp);
-        emitChangeData("thp", thp);
     }
     if (event.target == classModal) {
-        var classInput = classModal.getElementsByClassName("classInput")[0].value;   
-        var raceInput = classModal.getElementsByClassName("raceInput")[0].value;
-        var levelInput = classModal.getElementsByClassName("levelInput")[0].value;
-
-        if (classInput == ""){
-            classInput = "Input Class";
-        }  
-        if (raceInput == ""){
-            raceInput = "Input Race";
-        }
-        if (levelInput == ""){
-            levelInput = 1;
-        }
-        adjustVisibleClass(raceInput, classInput, levelInput);
+        stripAndSendClass();
         classModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
-        emitChangeData("class", classInput);
-        emitChangeData("race", raceInput);
-        emitChangeData("level", levelInput);
     }
     if (event.target == selectedAttackModal) {
         selectedAttackModal.style.display = "none";
@@ -756,8 +673,196 @@ function onCloseModal(event){
         selectedSpellModal.style.display = "none";
         document.querySelector("body").style.overflow = "auto";
     }
+    if (event.target == proficiencyModal) {
+        proficiencyModal.style.display = "none";
+        document.querySelector("body").style.overflow = "auto";
+        stripAndSendProficiency();
+    }
 }
+function stripAndSendClass(){
+    classModal = document.getElementById("classModal");
+    var classInput = classModal.getElementsByClassName("classInput")[0].value;   
+    var raceInput = classModal.getElementsByClassName("raceInput")[0].value;
+    var levelInput = classModal.getElementsByClassName("levelInput")[0].value;
 
+    if (classInput == ""){
+        classInput = "Input Class";
+    }  
+    if (raceInput == ""){
+        raceInput = "Input Race";
+    }
+    if (levelInput == ""){
+        levelInput = 1;
+        classModal.getElementsByClassName("levelInput")[0].value = 1;
+    }
+    adjustVisibleClass(raceInput, classInput, levelInput);
+    emitChangeData("class", classInput);
+    emitChangeData("race", raceInput);
+    emitChangeData("level", levelInput);
+}
+function stripAndSendHPModal(){
+    HPModal = document.getElementById("HPModal");
+    var chp = HPModal.getElementsByClassName("chpInput")[0].value;   
+    var mhp = HPModal.getElementsByClassName("mhpInput")[0].value;
+    var thp = HPModal.getElementsByClassName("thpInput")[0].value;
+    if (chp == ""){
+        chp = 0;
+        HPModal.getElementsByClassName("chpInput")[0].value = 0;
+    }  
+    if (mhp == ""){
+        mhp = 0;
+        HPModal.getElementsByClassName("mhpInput")[0].value = 0;
+    }
+    if (thp == ""){
+        thp = 0;
+        HPModal.getElementsByClassName("thpInput")[0].value = 0;
+    }
+    adjustVisibleHP(chp, mhp, thp);
+    emitChangeData("chp", chp);
+    emitChangeData("mhp", mhp);
+    emitChangeData("thp", thp);
+}
+function stripAndSendACModal(){
+    ACModal = document.getElementById("ACModal");
+    var ac = ACModal.getElementsByClassName("armorInput")[0].value;   
+    if (ac == ""){
+        ac = 10;
+        ACModal.getElementsByClassName("armorInput")[0].value = 10;
+    }  
+    adjustVisibleAC(ac);
+    emitChangeData("ac", ac);
+}
+function stripAndSendSpellslots(){
+    spellSlotsModal = document.getElementById("spellSlotsModal");
+    var l1 = spellSlotsModal.getElementsByClassName("spellSlot1Input")[0].value;
+    var l2 = spellSlotsModal.getElementsByClassName("spellSlot2Input")[0].value;
+    var l3 = spellSlotsModal.getElementsByClassName("spellSlot3Input")[0].value;
+    var l4 = spellSlotsModal.getElementsByClassName("spellSlot4Input")[0].value;
+    var l5 = spellSlotsModal.getElementsByClassName("spellSlot5Input")[0].value;
+    var l6 = spellSlotsModal.getElementsByClassName("spellSlot6Input")[0].value;
+    var l7 = spellSlotsModal.getElementsByClassName("spellSlot7Input")[0].value;
+    var l8 = spellSlotsModal.getElementsByClassName("spellSlot8Input")[0].value;
+    var l9 = spellSlotsModal.getElementsByClassName("spellSlot9Input")[0].value;
+    var lKi = spellSlotsModal.getElementsByClassName("spellSlotKiInput")[0].value;
+
+    adjustSpellslots(l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi);
+    values = [l1, l2, l3, l4, l5, l6, l7, l8, l9, lKi];
+    emitChangeData("spellSlots", values);
+}
+function stripAndSendCash(){
+    cashModal = document.getElementById("cashModal");
+    var cp = cashModal.getElementsByClassName("copperInput")[0].value;
+    var sp = cashModal.getElementsByClassName("silverInput")[0].value;
+    var gp = cashModal.getElementsByClassName("goldInput")[0].value;
+    var pp = cashModal.getElementsByClassName("platinumInput")[0].value;
+
+    if (cp == ""){
+        cp = 0;
+        cashModal.getElementsByClassName("copperInput")[0].value = 0;
+    }
+    if (sp == ""){
+        sp = 0;
+        cashModal.getElementsByClassName("silverInput")[0].value = 0;
+    }
+    if (gp == ""){
+        gp = 0;
+        cashModal.getElementsByClassName("goldInput")[0].value = 0;
+    }
+    if (pp == ""){
+        pp = 0;
+        cashModal.getElementsByClassName("platinumInput")[0].value = 0;
+    }
+    if (cp[0] == "0"){
+        cp = cp.substring(1);
+        cashModal.getElementsByClassName("copperInput")[0].value = cp;
+    }
+    if (sp[0] == "0"){
+        sp = sp.substring(1);
+        cashModal.getElementsByClassName("silverInput")[0].value = sp;
+    }
+    if (gp[0] == "0"){
+        gp = gp.substring(1);
+        cashModal.getElementsByClassName("goldInput")[0].value = gp;
+    }
+    if (pp[0] == "0"){
+        pp = pp.substring(1);
+        cashModal.getElementsByClassName("platinumInput")[0].value = pp;
+    }
+    adjustVisibleCash(cp, sp, gp, pp);
+    values = [cp, sp, gp, pp];
+    emitChangeData("coin", values);
+}
+function stripAndSendStats(){
+    statsModal = document.getElementById("statsModal");
+    var strength = statsModal.getElementsByClassName("strengthInput")[0].value;
+    var dexterity = statsModal.getElementsByClassName("dexterityInput")[0].value;
+    var constitution = statsModal.getElementsByClassName("constitutionInput")[0].value;
+    var intelligence = statsModal.getElementsByClassName("intelligenceInput")[0].value;
+    var wisdom = statsModal.getElementsByClassName("wisdomInput")[0].value;
+    var charisma = statsModal.getElementsByClassName("charismaInput")[0].value;
+
+    if (strength == ""){
+        strength = 10;
+        statsModal.getElementsByClassName("strengthInput")[0].value = 10;
+    }
+    if (dexterity == ""){
+        dexterity = 10;
+        statsModal.getElementsByClassName("dexterityInput")[0].value = 10;
+    }
+    if (constitution == ""){
+        constitution = 10;
+        statsModal.getElementsByClassName("constitutionInput")[0].value = 10;
+    }
+    if (intelligence == ""){
+        intelligence = 10;
+        statsModal.getElementsByClassName("intelligenceInput")[0].value = 10;
+    }
+    if (wisdom == ""){
+        wisdom = 10;
+        statsModal.getElementsByClassName("wisdomInput")[0].value = 10;
+    }
+    if (charisma == ""){
+        charisma = 10;
+        statsModal.getElementsByClassName("charismaInput")[0].value = 10;
+    }
+    
+    adjustVisibleMods(strength, dexterity, constitution, intelligence, wisdom, charisma);
+    values = [strength, dexterity, constitution, intelligence, wisdom, charisma];
+    emitChangeData("stats", values);
+}
+function stripAndSendProficiency(){
+    values = [];
+    for (var i = 0; i < 18; i++){
+        var checkbox = document.getElementsByClassName("pf" + i)[0];
+        if (checkbox.checked){
+            values.push(1);
+        } else {
+            values.push(0);
+        }
+    }
+    emitChangeData("proficiencies", values);
+}
+function proficiencyHandler(checkbox, index){
+    relevantMod = document.getElementsByClassName("hiddenAttribute" + index)[0].innerHTML;
+    correctMod = document.getElementsByClassName(relevantMod + "Mod")[0].innerHTML;
+    value = 0;
+    if (correctMod[0] == "-"){
+        value = parseInt(correctMod);
+    } else {
+        value = parseInt(correctMod.substring(1));
+    }
+    if (checkbox.checked){
+        value += levelToProficiency();
+    }
+    if (value >= 0){
+        value = "+" + value;
+    }
+    document.getElementsByClassName("calculatedProf" + index)[0].innerHTML = value;
+}
+function openProficiencyModal() {
+    document.getElementById("proficiencyModal").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
+}
 function openNewAttackModal() {
     document.getElementById("newAttackModal").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
@@ -935,7 +1040,9 @@ function levelToProficiency(){
 function findModifier(obj){
     var stat = obj.getElementsByClassName("relevantStat")[0].innerHTML;
     var correctMod = document.getElementsByClassName(stat + "Mod")[0].innerHTML;
-    correctMod = correctMod.substring(1);
+    if (correctMod[0] == "+"){
+        correctMod = correctMod.substring(1);
+    }
     return parseInt(correctMod);
 }
 function spellAttackModifierHelper(trueClass){
