@@ -57,18 +57,12 @@ blankPlayer = {
 
 if (!db.has('old')){
     db.set('old', "0");
-	blankPlayer.name = "Tunst";
-    db.set('Tunst', JSON.stringify(blankPlayer));
-	blankPlayer.name = "Namfoodle";
-	db.set('Namfoodle', JSON.stringify(blankPlayer));
-	blankPlayer.name = "Delty";
-	db.set('Delty', JSON.stringify(blankPlayer));
-	blankPlayer.name = "Mort";
-	db.set('Mort', JSON.stringify(blankPlayer));
-	blankPlayer.name = "Rumple";
-	db.set('Rumple', JSON.stringify(blankPlayer));
-	blankPlayer.name = "Bingus";
-	db.set('Bingus', JSON.stringify(blankPlayer));
+	blankPlayer.name = "Norman Barley";
+    db.set('Norman Barley', JSON.stringify(blankPlayer));
+	blankPlayer.name = "Targ Blargen";
+	db.set('Targ Blargen', JSON.stringify(blankPlayer));
+	blankPlayer.name = "Malori Alyelor";
+	db.set('Malori Alyelor', JSON.stringify(blankPlayer));
 }
 
 characterCache = db.JSON(); //get all characters from db in server cache
@@ -85,10 +79,13 @@ app.get('/getChar', function (req, res){
 });
 
 app.post('/saveChar', function (req, res){
+	/*
 	const character = req.body.character;
 	const name = req.body.name;
 	characterCache[name] = JSON.stringify(character);
 	db.set(name, JSON.stringify(character));
+	*/
+	res.status(200).send("no longer active");
 });
 
 app.post('/createChar', function (req, res){
@@ -96,6 +93,7 @@ app.post('/createChar', function (req, res){
 	blankPlayer.name = name;
 	characterCache[name] = JSON.stringify(blankPlayer);
 	db.set(name, JSON.stringify(blankPlayer));
+	res.status(200).send("created");
 });
 
 app.get('/getCharList', function (req, res){
