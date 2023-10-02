@@ -1,0 +1,6 @@
+{
+    "old": 11,
+    "Norman Barley": "{\"name\":\"Norman Barley\",\"class\":\"Class\",\"level\":1,\"race\":\"Race\",\"backstory\":\"\",\"notes\":\"\",\"inventory\":\"\",\"coin\":[0,0,0,0],\"stats\":[10,10,10,10,10,10],\"ac\":10,\"chp\":10,\"mhp\":10,\"thp\":0,\"abilities\":[],\"attacks\":[],\"spells\":[[],[],[],[],[],[],[],[],[],[]],\"spellSlots\":[0,0,0,0,0,0,0,0,0,0],\"proficiencies\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}",
+    "Targ Blargen": "{\"name\":\"Targ Blargen\",\"class\":\"Class\",\"level\":1,\"race\":\"Race\",\"backstory\":\"\",\"notes\":\"\",\"inventory\":\"\",\"coin\":[0,0,0,0],\"stats\":[10,10,10,10,10,10],\"ac\":10,\"chp\":10,\"mhp\":10,\"thp\":0,\"abilities\":[],\"attacks\":[],\"spells\":[[],[],[],[],[],[],[],[],[],[]],\"spellSlots\":[0,0,0,0,0,0,0,0,0,0],\"proficiencies\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}",
+    "Malori Alyelor": "{\"name\":\"Malori Alyelor\",\"class\":\"Class\",\"level\":1,\"race\":\"Race\",\"backstory\":\"\",\"notes\":\"\",\"inventory\":\"\",\"coin\":[0,0,0,0],\"stats\":[10,10,10,10,10,10],\"ac\":10,\"chp\":10,\"mhp\":10,\"thp\":0,\"abilities\":[],\"attacks\":[],\"spells\":[[],[],[],[],[],[],[],[],[],[]],\"spellSlots\":[0,0,0,0,0,0,0,0,0,0],\"proficiencies\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}"
+}

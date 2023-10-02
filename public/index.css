@@ -44,7 +44,7 @@ body {
 .stats {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content:space-between;  
     align-items: center;
     border: 8px solid var(--borderColor);
     border-radius: 30px;
@@ -63,9 +63,9 @@ body {
     font-size: 2em;
 }
 
-@media (min-width: 1200px) {
+@media screen and (min-width: 1500px) {
     .innerStat {
-        font-size: 3em;
+        font-size: 2.5em;
     }
 }
 
@@ -424,7 +424,7 @@ body {
     height: 4vh;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1500px) {
 
     .writtenSpell, .writtenAbility, .writtenAttack {
         font-size: 1.5em;

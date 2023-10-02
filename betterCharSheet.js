@@ -31,7 +31,7 @@ if (mode != 'dev'){
 var characterCache = null;
 var connectionCount = null;
 
-const portNumber = 4145;
+const portNumber = 4144;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
